@@ -8,49 +8,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noli Me Tangere</title>
     <style>
-        /* Sleek enhancements for video layout and horizontal episode scroll */
+        /* Fixed Video Container Layout */
         .chapterVideo {
-            position: relative;
             width: 100%;
-            max-width: 850px;
-            margin: 24px auto;
-            aspect-ratio: 16 / 9;
-            background: #111;
-            border-radius: 12px;
+            max-width: 700px;
+            margin: 20px auto;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
         }
         .chapterVideo iframe {
             width: 100%;
-            height: 100%;
+            height: 400px;
+            display: block;
             border: none;
         }
+
+        /* Simplified, clean episode scroller */
         .chapters-container {
+            width: 100%;
             overflow-x: auto;
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-            padding: 8px 4px 16px 4px;
-            cursor: grab;
+            white-space: nowrap;
+            padding: 10px 0;
+            margin-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
         }
         .chapters-container::-webkit-scrollbar {
-            height: 6px;
+            height: 4px;
         }
         .chapters-container::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
         }
         .chapters {
-            display: flex;
-            gap: 12px;
-            white-space: nowrap;
+            display: inline-flex;
+            gap: 10px;
         }
         .chapter {
-            flex: 0 0 auto;
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            display: inline-block;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.04);
+            transition: background 0.2s;
         }
         .chapter:hover {
-            transform: translateY(-2px);
+            background: rgba(0, 0, 0, 0.08);
         }
     </style>
 </head>
@@ -177,38 +179,6 @@
             };
             document.getElementById("chapterVideo").src = videoLinks[chapter];
         }
-
-        const container = document.querySelector(".chapters-container");
-        const chapters = document.querySelector(".chapters");
-
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        container.addEventListener("mousedown", (e) => {
-            isDown = true;
-            chapters.style.cursor = "grabbing";
-            startX = e.pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
-        });
-
-        container.addEventListener("mouseleave", () => {
-            isDown = false;
-            chapters.style.cursor = "grab";
-        });
-
-        container.addEventListener("mouseup", () => {
-            isDown = false;
-            chapters.style.cursor = "grab";
-        });
-
-        container.addEventListener("mousemove", (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX) * 2;
-            container.scrollLeft = scrollLeft - walk;
-        });
     </script>
 </body>
 </html>

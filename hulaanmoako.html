@@ -210,8 +210,81 @@
         });
     </script>
 
-    <!-- Game Logic Script -->
+    <!-- Game & Audio Logic Script -->
     <script>
+        // Shared Web Audio API context for classical theme music and interactions
+        let audioCtx;
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Pluck tone generator helper
+        function playTone(freq, time, duration = 1.2, volume = 0.12) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, time);
+
+            gain.gain.setValueAtTime(volume, time);
+            gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start(time);
+            osc.stop(time + duration);
+        }
+
+        // Button Click Sound Effect: Spanish Classical Strum
+        function playClassicalStrum() {
+            initAudioContext();
+            const frequencies = [164.81, 220.00, 246.94, 329.63, 392.00];
+            frequencies.forEach((freq, index) => {
+                playTone(freq, audioCtx.currentTime + (index * 0.045), 1.0, 0.22);
+            });
+        }
+
+        // Background Music: Spanish classical arpeggio sequence
+        let isBgmPlaying = false;
+        function startBackgroundMusic() {
+            if (isBgmPlaying) return;
+            initAudioContext();
+            isBgmPlaying = true;
+
+            const chords = [
+                [164.81, 220.00, 246.94, 329.63], // E minor
+                [174.61, 220.00, 261.63, 329.63], // F major / Cadential shift
+                [146.83, 220.00, 261.63, 349.23], // D minor
+                [146.83, 207.65, 246.94, 329.63]  // B7
+            ];
+
+            let chordIndex = 0;
+            const noteInterval = 0.35;
+
+            function loopArpeggio() {
+                if (!isBgmPlaying) return;
+                const currentChord = chords[chordIndex];
+                const now = audioCtx.currentTime;
+
+                currentChord.forEach((freq, idx) => {
+                    playTone(freq, now + (idx * noteInterval), 1.5, 0.12);
+                });
+
+                chordIndex = (chordIndex + 1) % chords.length;
+                setTimeout(loopArpeggio, currentChord.length * noteInterval * 1000);
+            }
+
+            loopArpeggio();
+        }
+
         let words = [
             {word: "crisostomo", hint: "Ang binatang nag-aral sa Europa na nagnais magtayo ng paaralan sa San Diego para sa ikauunlad ng kabataan."},
             {word: "tiyago", hint: "Isang mayamang mangangalakal sa Tondo na kinikilalang ama-amahan ni Maria Clara at masunurin sa mga prayle."},
@@ -241,7 +314,7 @@
             {word: "sakristan", hint: "Ang katulong ng pari sa simbahan na namamahala sa pagpapatunog ng kampana at paghahanda sa misa."},
             {word: "tulisan", hint: "Ang tawag sa mga taong namumuhay sa kabundukan na labis na inuusig ng pamahalaan at guwardiya sibil."},
             {word: "buwaya", hint: "Ang malaking halimaw sa lawa na muntik nang pumatay kay Ibarra bago ito patayin ni Elias."},
-            {word: "onsa", href: "", hint: "Ang gintong barya na ipinagbintang na ninakaw ni Crispin mula sa kaban ng simbahan."},
+            {word: "onsa", hint: "Ang gintong barya na ipinagbintang na ninakaw ni Crispin mula sa kaban ng simbahan."},
             {word: "sementeryo", hint: "Ang libingan sa bayan kung saan nag-uusap ang dalawang sepulturero sa ilalim ng ulan."},
             {word: "sepulturero", hint: "Ang taong naghuhukay at naglilibing ng mga patay sa sementeryo ng bayan."},
             {word: "kampana", hint: "Ang instrumentong tanso sa tore ng simbahan na pinatutunog para sa misa o tuwing may paparating na bagyo."},
@@ -330,12 +403,14 @@
         };
 
         window.closeHintModal = () => {
+            playClassicalStrum();
             hintModal.classList.remove("show");
             guessInput.value = "";
             guessInput.focus();
         };
 
         const checkAnswer = () => {
+            playClassicalStrum();
             let userGuess = guessInput.value.trim().toLowerCase();
 
             if (!userGuess) {
@@ -363,7 +438,10 @@
             }
         };
 
-        refreshBtn.addEventListener("click", initGame);
+        refreshBtn.addEventListener("click", () => {
+            playClassicalStrum();
+            initGame();
+        });
         checkBtn.addEventListener("click", checkAnswer);
         
         guessInput.addEventListener("keypress", function(event) {
@@ -372,6 +450,9 @@
                 checkAnswer();
             }
         });
+
+        // Enable background music on user's first interaction anywhere
+        document.body.addEventListener("click", startBackgroundMusic, { once: true });
 
         initGame();
     </script>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="games.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noli Me Tangere</title>
+</head>
+
+<body>
+
+    <div class="container fade-in">
+        <nav class="nav fade-in">
+            <img src="noli.png" alt="Logo">
+            <div>
+               <a href="home.html">Home</a>
+                <a href="characters.html">Mga Tauhan</a>
+                <a href="chapters.html">Mga Kabanata</a>
+                <a href="games.html">Mga Laro</a>
+                <a href="about.html">Tungkol</a>
+            </div>
+        </nav>
+        
+        <header class="header fade-in">
+            <p>Tuklasin ang mga tema at karakter ng Noli Me Tangere, ang nobelang nagpabago sa Pilipinas magpakailanman.</p>
+        </header>
+
+        <section class="desc">
+            <h1>Sino ang Nagsabi?</h1>
+            <p>Hulaan ang tamang karakter batay sa kanilang linya!</p>
+        </section>
+
+        <main class="main" id="main">
+
+            <section class="content" id="content">
+                
+                <div class="quiz-box">
+                    <h2>Sino ang nagsabi ng linyang ito?</h2>
+                    <p id="quote">..</p>
+                    <ul class="options">
+                        <li onclick="checkAnswer(this)">Option 1</li>
+                        <li onclick="checkAnswer(this)">Option 2</li>
+                        <li onclick="checkAnswer(this)">Option 3</li>
+                        <li onclick="checkAnswer(this)">Option 4</li>
+                    </ul>
+                    <button onclick="loadQuestion()">Refresh Question</button>
+                </div>
+
+            </section>
+        </main>
+
+        <footer class="footer" id="footer">
+            &copy; 2025 Noli Me Tangere. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var main = document.getElementById("main");
+            var footer = document.getElementById("footer");
+            var content = document.getElementById("content");
+
+            var fadeElements = document.querySelectorAll(".fade-in");
+
+        function fadeInOnScroll() {
+            fadeElements.forEach(function (element) {
+                var rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    element.classList.add("show");
+                }
+            });
+        }
+            fadeInOnScroll();
+                window.addEventListener("scroll", fadeInOnScroll);
+            });
+    </script>
+
+    <script>
+         const quizData = [
+                {
+                    quote: "Nasaan na ang mga anak ko?!",
+                    correct: "Sisa",
+                    options: ["Crisostomo Ibarra", "Elias", "Sisa", "Jose Rizal"]
+                },
+                {
+                    quote: "Bakit ako matatakot? Ako ba’y may kasalanan?",
+                    correct: "Elias",
+                    options: ["Salome", "Simoun", "Sisa", "Elias"]
+                },
+                {
+                    quote: "Ang mga taong walang kibo ay dapat ding katakutan.",
+                    correct: "Elias",
+                    options: ["Crisostomo Ibarra", "Elias", "Donya Victorina", "Mama mo"]
+                },
+                {
+                    quote: "Ang relihiyon ay hindi dapat gamitin upang apihin ang tao.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Pilosopo Tasyo", "Crisostomo Ibarra", "Maria Clara", "Simoun"]
+                },
+                {
+                    quote: "Ano ang inyong gagawin kung makita ninyo ang taong pumatay sa inyong ama?",
+                    correct: "Crisostomo Ibarra",
+                    options: ["Crisostomo Ibarra", "Elias", "Padre Salvi", "Maria Clara"]
+                },
+                {
+                    quote: "Walang mangmang kung walang manloloko.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Padre Damaso", "Pilosopo Tasyo", "Basilio", "Captain Tiago"]
+                },
+                {
+                    quote: "Hindi lahat ng pari ay banal.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Kapitan Tiyago", "Pilosopo Tasyo", "Elias", "Doña Victorina"]
+                },
+                {
+                    quote: "Kapag ang bayan ay nasa ilalim ng pang-aapi, may karapatan itong lumaban.",
+                    correct: "Elias",
+                    options: ["Maria Clara", "Elias", "Crisostomo Ibarra", "Sinang"]
+                },
+                {
+                    quote: "Hindi ako nagtataka kung bakit hindi umuunlad ang bayan natin.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Maria Clara", "Linares", "Sisa", "Pilosopo Tasyo"]
+                },
+                {
+                    quote: "Mahal ko siya, kaya ako’y magiging isang madre!",
+                    correct: "Maria Clara",
+                    options: ["Maria Clara", "Crisostomo Ibarra", "Sisa", "Doña Victorina"]
+                },
+
+                // --- 30 Bagong Tanong ---
+                {
+                    quote: "Mamamatay akong hindi nakikita ang pagbubukang-liwayway sa aking bayan!",
+                    correct: "Elias",
+                    options: ["Crisostomo Ibarra", "Padre Damaso", "Elias", "Pilosopo Tasyo"]
+                },
+                {
+                    quote: "Kayong makakakita sa pag-asa, batiin ninyo siya, at huwag kalilimutan ang mga nalugmok sa dilim ng gabi!",
+                    correct: "Elias",
+                    options: ["Padre Salvi", "Basilio", "Elias", "Crisostomo Ibarra"]
+                },
+                {
+                    quote: "Kung kailangan ko pa ng katibayan upang maniwala sa Diyos, sapat na ang makita kita.",
+                    correct: "Crisostomo Ibarra",
+                    options: ["Linares", "Crisostomo Ibarra", "Kapitan Tiyago", "Alfares"]
+                },
+                {
+                    quote: "Ang mga prayle ang nagpapasiya sa lahat, ang gobyerno ay nakikinig lamang.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Elias", "Kapitan Heneral", "Don Tiburcio", "Pilosopo Tasyo"]
+                },
+                {
+                    quote: "Gusto kong magpatayo ng paaralan upang mabigyan ng magandang kinabukasan ang mga kabataan.",
+                    correct: "Crisostomo Ibarra",
+                    options: ["Crisostomo Ibarra", "Padre Damaso", "Kapitan Tiyago", "Tiya Isabel"]
+                },
+                {
+                    quote: "Walang lihim na hindi nabubunyag sa bayang ito.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Pilosopo Tasyo", "Doña Consolacion", "Elias", "Sisa"]
+                },
+                {
+                    quote: "Mas mabuti ang maging sawi sa pag-ibig kaysa walang alam sa katotohanan.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Elias", "Maria Clara", "Pilosopo Tasyo", "Crispin"]
+                },
+                {
+                    quote: "Ang mga Indio ay ipinanganak lamang upang maglingkod at sumunod.",
+                    correct: "Padre Damaso",
+                    options: ["Padre Damaso", "Crisostomo Ibarra", "Kapitan Tiyago", "Basilio"]
+                },
+                {
+                    quote: "Wala akong ibang minahal kundi siya, ngunit kailangan ko siyang iwan para sa aking ama.",
+                    correct: "Maria Clara",
+                    options: ["Sisa", "Maria Clara", "Doña Victorina", "Sinang"]
+                },
+                {
+                    quote: "Ako ay heneral ng Pilipinas, ngunit ang mga prayle ang totoong namumuno.",
+                    correct: "Kapitan Heneral",
+                    options: ["Tenyente Guevarra", "Alfares", "Kapitan Heneral", "Kapitan Tiyago"]
+                },
+                {
+                    quote: "Sa mga panahong ito, ang mabuting tao ay madalas ituring na baliw.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Sisa", "Pilosopo Tasyo", "Elias", "Doña Victorina"]
+                },
+                {
+                    quote: "Bawat bansa ay may sariling sakit. Ang sa atin ay ang kanser sa lipunan.",
+                    correct: "Crisostomo Ibarra",
+                    options: ["Padre Salvi", "Crisostomo Ibarra", "Elias", "Pilosopo Tasyo"]
+                },
+                {
+                    quote: "Hindi lahat ng kumikinang ay ginto, at hindi lahat ng madilim ay masama.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Sisa", "Pilosopo Tasyo", "Maria Clara", "Padre Sibyla"]
+                },
+                {
+                    quote: "Hindi ka isang tunay na may-kaya kung hindi ka marunong mag-Kastila!",
+                    correct: "Doña Victorina",
+                    options: ["Doña Victorina", "Tiya Isabel", "Maria Clara", "Sisa"]
+                },
+                {
+                    quote: "Isang araw, malalaman din nila ang katotohanan tungkol sa pagkamatay ng aking ama sa loob ng kulungan.",
+                    correct: "Crisostomo Ibarra",
+                    options: ["Basilio", "Elias", "Crisostomo Ibarra", "Crispin"]
+                },
+                {
+                    quote: "Hindi lahat ng matanda ay may sapat na karunungan, tulad ng hindi lahat ng bata ay mangmang.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Pilosopo Tasyo", "Padre Damaso", "Elias", "Crisostomo Ibarra"]
+                },
+                {
+                    quote: "Ang mga tulisan ay hindi lahat masasamang tao, minsan sila ay mga taong naghahanap lamang ng katarungan.",
+                    correct: "Elias",
+                    options: ["Padre Salvi", "Elias", "Kapitan Heneral", "Crisostomo Ibarra"]
+                },
+                {
+                    quote: "Ako’y maghihintay sa iyo, kahit hanggang sa kamatayan.",
+                    correct: "Maria Clara",
+                    options: ["Maria Clara", "Sinang", "Sisa", "Victoria"]
+                },
+                {
+                    quote: "Kapag nagalit ang isang tahimik na tao, matakot kayo dahil wala siyang sasantuhin.",
+                    correct: "Elias",
+                    options: ["Padre Damaso", "Elias", "Pilosopo Tasyo", "Crispin"]
+                },
+                {
+                    quote: "Kailangan kong mabuhay at magtrabaho para mabawi ang aking mga anak!",
+                    correct: "Sisa",
+                    options: ["Doña Consolacion", "Sisa", "Tiya Isabel", "Maria Clara"]
+                },
+                {
+                    quote: "Sa ilalim ng aking bubong, ang mga panauhin ko ay laging ligtas at iginagalang.",
+                    correct: "Kapitan Tiyago",
+                    options: ["Padre Damaso", "Kapitan Tiyago", "Doña Victorina", "Crisostomo Ibarra"]
+                },
+                {
+                    quote: "Sana ay naging ulila na lamang ako kaysa magkaroon ng ganitong kapalaran.",
+                    correct: "Maria Clara",
+                    options: ["Sisa", "Maria Clara", "Basilio", "Crispin"]
+                },
+                {
+                    quote: "Wala akong kasalanan! Hindi ako nagnakaw ng dalawang onsa!",
+                    correct: "Crispin",
+                    options: ["Basilio", "Crispin", "Sisa", "Elias"]
+                },
+                {
+                    quote: "Kuya, ayoko nang bumalik sa kumbento. Natatakot ako sa kura.",
+                    correct: "Crispin",
+                    options: ["Crispin", "Basilio", "Ibarra", "Tasyo"]
+                },
+                {
+                    quote: "Ang Diyos ang bahalang humatol sa aking mga naging kasalanan, ngunit hindi ko hahayaang mapahamak ka.",
+                    correct: "Elias",
+                    options: ["Elias", "Pilosopo Tasyo", "Crisostomo Ibarra", "Maria Clara"]
+                },
+                {
+                    quote: "Tanging ang edukasyon ang makapagliligtas sa ating bayan mula sa pagiging mangmang.",
+                    correct: "Crisostomo Ibarra",
+                    options: ["Padre Damaso", "Crisostomo Ibarra", "Tenyente Guevarra", "Doña Victorina"]
+                },
+                {
+                    quote: "Huwag mong kalimutan na ako ang kura paroko ng bayang ito! Ako ang masusunod!",
+                    correct: "Padre Salvi",
+                    options: ["Padre Salvi", "Kapitan Tiyago", "Elias", "Don Tiburcio"]
+                },
+                {
+                    quote: "Ang aking asawa ay isang tanyag na manggagamot na mula pa sa Espanya!",
+                    correct: "Doña Victorina",
+                    options: ["Doña Consolacion", "Tiya Isabel", "Sisa", "Doña Victorina"]
+                },
+                {
+                    quote: "Ang sinumang hindi nakakaalam sa kanyang kasaysayan ay walang maayos na hinaharap.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Elias", "Crisostomo Ibarra", "Pilosopo Tasyo", "Padre Sibyla"]
+                },
+                {
+                    quote: "Kung sino ang may hawak ng relihiyon sa bayang ito, siya rin ang may hawak ng kapangyarihan.",
+                    correct: "Pilosopo Tasyo",
+                    options: ["Pilosopo Tasyo", "Kapitan Heneral", "Alfares", "Elias"]
+                }
+        ];
+
+        function loadQuestion() {
+            let randomIndex = Math.floor(Math.random() * quizData.length);
+            let question = quizData[randomIndex];
+
+            document.getElementById("quote").textContent = `"${question.quote}"`;
+            
+            let shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
+            let optionsList = document.querySelectorAll(".options li");
+
+            optionsList.forEach((option, index) => {
+                option.textContent = shuffledOptions[index];
+                option.className = "";
+                option.onclick = function () {
+                    checkAnswer(option, question.correct);
+                };
+            });
+        }
+
+        function checkAnswer(selectedOption, correctAnswer) {
+            let optionsList = document.querySelectorAll(".options li");
+
+            optionsList.forEach(option => {
+                option.className = option.textContent === correctAnswer ? "correct" : "wrong";
+            });
+        }
+
+        window.onload = loadQuestion;
+    </script>
+</body>
+
+</html>

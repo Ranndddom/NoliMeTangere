@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="gamesstyles.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noli Me Tangere</title>
+</head>
+
+<body>
+
+    <div class="container fade-in">
+        <nav class="nav fade-in">
+            <img src="noli.png" alt="Logo">
+            <div>
+              <a href="home.html">Home</a>
+                <a href="characters.html">Mga Tauhan</a>
+                <a href="chapters.html">Mga Kabanata</a>
+                <a href="games.html">Mga Laro</a>
+                <a href="about.html">Tungkol</a>
+            </div>
+        </nav>
+        
+        <header class="header fade-in">
+            <h1>Mga Laro</h1>
+        </header>
+
+        <section class="desc fade-in">
+            <h1 class="fade-in">Noli Me Tangere: Mga Pagsusulit</h1>
+            <p class="fade-in">Tuklasin kung gaano mo kakilala ang Noli Me Tangere!
+            Subukan ang iba't ibang pagsusulit at hamunin ang iyong kaalaman sa mga karakter, kabanata, at mahahalagang pangyayari.
+            </p>
+        </section>
+
+        <main class="main" id="main">
+
+            <section class="content fade-in" id="content">
+                
+                    <div class="gamesection-container fade-in">
+                    <div class="gamesection">
+                        <div class="card" 
+                        style="background-image: url('https://i.pinimg.com/736x/74/56/8e/74568e5d9014516452ecbdc4d3d8450f.jpg');" 
+                        onclick="location.href='hulaanmoako.html'">
+                            <div class="overlay">
+                                <h3>Hulaan Mo Ako: Pinaghalong Letra!</h3>
+                                <p>Hulaan ang tamang karakter sa pamamagitan ng pinaghalong letra!</p>
+                            </div>
+                        </div>
+                        <div class="card" 
+                        style="background-image: url('https://i.pinimg.com/736x/b4/30/8d/b4308dfacfb4560b64d7d5c20619a2d1.jpg');"
+                        onclick="location.href='sinoangnagsabi.html'">
+                            <div class="overlay">
+                                <h3>Sino ang Nagsabi?</h3>
+                                <p>Hulaan ang tamang karakter batay sa kanilang linya!</p>
+                            </div>
+                        </div>
+                        <div class="card"
+                        style="background-image: url('https://i.pinimg.com/736x/4e/9e/aa/4e9eaac487605c913b9a1759db9a2d98.jpg');"
+                        onclick="location.href='kabanata kronika.html'">
+                            <div class="overlay">
+                                <h3>Kabanata Kronika: Alin Nga Ba?</h3>
+                                <p>Tukuyin ang tamang kabanata mula sa mga pahiwatig at pangyayari sa kwento!</p>
+                            </div>
+                        </div>
+                        <div class="card"
+                        style="background-image: url('https://i.pinimg.com/736x/48/1c/55/481c55d85c09361fffdabb92f6c0c59d.jpg');"
+                        onclick="location.href='kasaysayanokatha.html'">
+                            <div class="overlay">
+                                <h3>Kasaysayan o Katha?</h3>
+                                <p>Tukuyin kung alin ang batay sa katotohanan at alin ang malikhaing akda!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>       
+            </section>
+        </main>
+
+        <footer class="footer" id="footer">
+            &copy; 2025 Noli Me Tangere. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var main = document.getElementById("main");
+            var footer = document.getElementById("footer");
+            var content = document.getElementById("content");
+
+            var fadeElements = document.querySelectorAll(".fade-in");
+
+        function fadeInOnScroll() {
+            fadeElements.forEach(function (element) {
+                var rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    element.classList.add("show");
+                }
+            });
+        }
+            fadeInOnScroll();
+                window.addEventListener("scroll", fadeInOnScroll);
+            });
+    </script>
+</body>
+</html>

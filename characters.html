@@ -7,20 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noli Me Tangere</title>
     <style>
-        /* Make containercard1 display flex in a row and match the width of the two columns below */
+        /* Fix overlap issue by using proper spacing, clear flow, and arranging all 4 main cards side-by-side */
+        .tauhan {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+        }
+        .desc {
+            width: 100%;
+            margin-bottom: 25px;
+            clear: both;
+        }
         .containercard1 {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-between;
+            flex-wrap: nowrap;
+            gap: 15px;
             width: 100%;
-            max-width: 1200px; /* Adjust to match your main container width */
-            margin: 0 auto 30px auto;
+            max-width: 100%;
+            margin: 0 0 35px 0;
             background: transparent !important;
             padding: 0 !important;
+            box-sizing: border-box;
         }
         .containercard1 .card1 {
-            flex: 1 1 calc(50% - 10px); /* 2 items per row, perfectly aligned with two-column layout */
+            flex: 1 1 0;
+            min-width: 0;
             box-sizing: border-box;
             margin: 0 !important;
         }

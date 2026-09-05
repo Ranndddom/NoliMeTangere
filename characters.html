@@ -7,34 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noli Me Tangere</title>
     <style>
-        /* CSS adjustments to force full width and red background for long/centered cards */
+        /* Make containercard1 display flex in a row and match the width of the two columns below */
         .containercard1 {
-            width: 100% !important;
-            max-width: 100% !important;
-            box-sizing: border-box;
-            background-color: #8b0000; /* Rich red background */
-            padding: 40px 20px;
-            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px; /* Adjust to match your main container width */
+            margin: 0 auto 30px auto;
+            background: transparent !important;
+            padding: 0 !important;
         }
         .containercard1 .card1 {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto 20px auto;
-            background-color: #ffffff; /* Keep individual cards white for readability */
+            flex: 1 1 calc(50% - 10px); /* 2 items per row, perfectly aligned with two-column layout */
             box-sizing: border-box;
-        }
-        .containercard1 .card1:last-child {
-            margin-bottom: 0;
-        }
-        .main {
-            padding: 0;
-            width: 100%;
-        }
-        .content {
-            width: 100%;
-        }
-        .tauhan {
-            width: 100%;
+            margin: 0 !important;
         }
     </style>
 </head>

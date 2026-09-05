@@ -3,6 +3,8 @@
 <head>
     <link rel="stylesheet" href="chaptersstyle.css">
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <!-- Google Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noli Me Tangere</title>
@@ -12,7 +14,7 @@
         <nav class="nav fade-in">
             <img src="noli.png" alt="Logo">
             <div>
-            <a href="home.html" onclick="if (window.location.pathname.includes('tes try.html')) location.reload();">Home</a>
+                <a href="home.html" onclick="if (window.location.pathname.includes('tes try.html')) location.reload();">Home</a>
                 <a href="characters.html">Mga Tauhan</a>
                 <a href="chapters.html">Mga Kabanata</a>
                 <a href="games.html">Mga Laro</a>
@@ -54,22 +56,28 @@
                 <iframe id="chapterVideo" class="fade-in" width="560" height="500" src="" frameborder="0" allowfullscreen></iframe>
             </div>
 
-            <h2 class="fade-in">📚 Mga Gabay sa Pag-aaral</h2>
+            <h2 class="fade-in">Mga Gabay sa Pag-aaral</h2>
 
             <div class="resource-container">
                 <div class="resource-card fade-in">
-                    <a href="https://www.youtube.com/watch?v=7mus23KUh88" target="_blank">🎥 Buod ng Bawat Kabanata
-                    <p>Panoorin ang kumpletong buod ng bawat kabanata sa YouTube.</p> </a>
+                    <a href="https://www.youtube.com/watch?v=7mus23KUh88" target="_blank">
+                        <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 22px; margin-right: 4px;">smart_display</span> Buod ng Bawat Kabanata
+                        <p>Panoorin ang kumpletong buod ng bawat kabanata sa YouTube.</p>
+                    </a>
                 </div>
         
                 <div class="resource-card fade-in">
-                    <a href="https://www.litcharts.com/lit/noli-me-tangere" target="_blank">📖 LitCharts Guide
-                    <p>Detalyadong pagsusuri at buod ng Noli Me Tangere.</p> </a>
+                    <a href="https://www.litcharts.com/lit/noli-me-tangere" target="_blank">
+                        <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 22px; margin-right: 4px;">menu_book</span> LitCharts Guide
+                        <p>Detalyadong pagsusuri at buod ng Noli Me Tangere.</p>
+                    </a>
                 </div>
         
                 <div class="resource-card fade-in">
-                    <a href="https://noypi.com.ph/noli-me-tangere-kabanata-1-buod/?fbclid=IwY2xjawI5cmFleHRuA2FlbQIxMAABHRDYYukgYBuVdXW_g--MaOv-PTbpUkMHID3L0ik5TeDWVf6ELkSs5y2MuA_aem_bUdyKMl2XLDrI_ZNhnq-ww" target="_blank">🌏 Noypi Website
-                    <p>Isang maaasahang mapagkukunan ng impormasyong pampanitikan.</p> </a>
+                    <a href="https://noypi.com.ph/noli-me-tangere-kabanata-1-buod/?fbclid=IwY2xjawI5cmFleHRuA2FlbQIxMAABHRDYYukgYBuVdXW_g--MaOv-PTbpUkMHID3L0ik5TeDWVf6ELkSs5y2MuA_aem_bUdyKMl2XLDrI_ZNhnq-ww" target="_blank">
+                        <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 22px; margin-right: 4px;">globe_asia</span> Noypi Website
+                        <p>Isang maaasahang mapagkukunan ng impormasyong pampanitikan.</p>
+                    </a>
                 </div>
             </div>
             
@@ -99,7 +107,7 @@
             });
 
 
-                function openChapter(chapter) {
+        function openChapter(chapter) {
             const videoLinks = {
                 1: "https://www.youtube.com/embed/eOVhSCv0dmQ?si=TcVCmk-dJKGWHjzQ",
                 2: "https://www.youtube.com/embed/vQZqlngrBME?si=xlhcCarLtt8HXV2H",
@@ -126,37 +134,36 @@
         }
 
         const container = document.querySelector(".chapters-container");
-const chapters = document.querySelector(".chapters");
+        const chapters = document.querySelector(".chapters");
 
-let isDown = false;
-let startX;
-let scrollLeft;
+        let isDown = false;
+        let startX;
+        let scrollLeft;
 
-container.addEventListener("mousedown", (e) => {
-    isDown = true;
-    chapters.style.cursor = "grabbing"; // Change cursor when dragging
-    startX = e.pageX - container.offsetLeft;
-    scrollLeft = container.scrollLeft;
-});
+        container.addEventListener("mousedown", (e) => {
+            isDown = true;
+            chapters.style.cursor = "grabbing";
+            startX = e.pageX - container.offsetLeft;
+            scrollLeft = container.scrollLeft;
+        });
 
-container.addEventListener("mouseleave", () => {
-    isDown = false;
-    chapters.style.cursor = "grab"; // Reset cursor
-});
+        container.addEventListener("mouseleave", () => {
+            isDown = false;
+            chapters.style.cursor = "grab";
+        });
 
-container.addEventListener("mouseup", () => {
-    isDown = false;
-    chapters.style.cursor = "grab"; // Reset cursor
-});
+        container.addEventListener("mouseup", () => {
+            isDown = false;
+            chapters.style.cursor = "grab";
+        });
 
-container.addEventListener("mousemove", (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - startX) * 2; // Adjust scroll speed
-    container.scrollLeft = scrollLeft - walk;
-});
-
+        container.addEventListener("mousemove", (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const walk = (x - startX) * 2;
+            container.scrollLeft = scrollLeft - walk;
+        });
     </script>
 </body>
 </html>

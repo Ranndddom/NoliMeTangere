@@ -14,7 +14,7 @@
         <nav class="nav fade-in">
             <img src="noli.png" alt="Logo">
             <div>
-              <a href="home.html">Home</a>
+                <a href="home.html">Home</a>
                 <a href="characters.html">Mga Tauhan</a>
                 <a href="chapters.html">Mga Kabanata</a>
                 <a href="games.html">Mga Laro</a>
@@ -37,11 +37,11 @@
 
             <section class="content fade-in" id="content">
                 
-                    <div class="gamesection-container fade-in">
+                <div class="gamesection-container fade-in">
                     <div class="gamesection">
                         <div class="card" 
                         style="background-image: url('https://i.pinimg.com/736x/74/56/8e/74568e5d9014516452ecbdc4d3d8450f.jpg');" 
-                        onclick="location.href='hulaanmoako.html'">
+                        data-href="hulaanmoako.html">
                             <div class="overlay">
                                 <h3>Hulaan Mo Ako: Pinaghalong Letra!</h3>
                                 <p>Hulaan ang tamang karakter sa pamamagitan ng pinaghalong letra!</p>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="card" 
                         style="background-image: url('https://i.pinimg.com/736x/b4/30/8d/b4308dfacfb4560b64d7d5c20619a2d1.jpg');"
-                        onclick="location.href='sinoangnagsabi.html'">
+                        data-href="sinoangnagsabi.html">
                             <div class="overlay">
                                 <h3>Sino ang Nagsabi?</h3>
                                 <p>Hulaan ang tamang karakter batay sa kanilang linya!</p>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="card"
                         style="background-image: url('https://i.pinimg.com/736x/4e/9e/aa/4e9eaac487605c913b9a1759db9a2d98.jpg');"
-                        onclick="location.href='kabanata kronika.html'">
+                        data-href="kabanata kronika.html">
                             <div class="overlay">
                                 <h3>Kabanata Kronika: Alin Nga Ba?</h3>
                                 <p>Tukuyin ang tamang kabanata mula sa mga pahiwatig at pangyayari sa kwento!</p>
@@ -65,7 +65,7 @@
                         </div>
                         <div class="card"
                         style="background-image: url('https://i.pinimg.com/736x/48/1c/55/481c55d85c09361fffdabb92f6c0c59d.jpg');"
-                        onclick="location.href='kasaysayanokatha.html'">
+                        data-href="kasaysayanokatha.html">
                             <div class="overlay">
                                 <h3>Kasaysayan o Katha?</h3>
                                 <p>Tukuyin kung alin ang batay sa katotohanan at alin ang malikhaing akda!</p>
@@ -82,24 +82,111 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var main = document.getElementById("main");
-            var footer = document.getElementById("footer");
-            var content = document.getElementById("content");
+        // Shared Web Audio API context
+        let audioCtx;
 
-            var fadeElements = document.querySelectorAll(".fade-in");
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
 
-        function fadeInOnScroll() {
-            fadeElements.forEach(function (element) {
-                var rect = element.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.85) {
-                    element.classList.add("show");
-                }
+        // Pluck sound generator helper
+        function playTone(freq, time, duration = 1.2, volume = 0.08) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, time);
+
+            gain.gain.setValueAtTime(volume, time);
+            gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start(time);
+            osc.stop(time + duration);
+        }
+
+        // Click sound effect: Classical strum
+        function playClassicalStrum() {
+            initAudioContext();
+            const frequencies = [164.81, 220.00, 246.94, 329.63, 392.00];
+            frequencies.forEach((freq, index) => {
+                playTone(freq, audioCtx.currentTime + (index * 0.045), 1.0, 0.15);
             });
         }
-            fadeInOnScroll();
-                window.addEventListener("scroll", fadeInOnScroll);
+
+        // Background Music: 19th-century Spanish guitar arpeggio progression (E minor - Am - B7)
+        let isBgmPlaying = false;
+        function startBackgroundMusic() {
+            if (isBgmPlaying) return;
+            initAudioContext();
+            isBgmPlaying = true;
+
+            const chords = [
+                [164.81, 220.00, 246.94, 329.63], // E minor
+                [174.61, 220.00, 261.63, 329.63], // F major / Spanish cadential shift
+                [146.83, 220.00, 261.63, 349.23], // D minor
+                [146.83, 207.65, 246.94, 329.63]  // B7
+            ];
+
+            let chordIndex = 0;
+            const noteInterval = 0.35; // Speed of arpeggio notes
+
+            function loopArpeggio() {
+                if (!isBgmPlaying) return;
+                const currentChord = chords[chordIndex];
+                const now = audioCtx.currentTime;
+
+                currentChord.forEach((freq, idx) => {
+                    playTone(freq, now + (idx * noteInterval), 1.5, 0.04);
+                });
+
+                chordIndex = (chordIndex + 1) % chords.length;
+                setTimeout(loopArpeggio, currentChord.length * noteInterval * 1000);
+            }
+
+            loopArpeggio();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Start BGM on user's first click anywhere (bypasses browser autoplay restrictions)
+            document.body.addEventListener("click", startBackgroundMusic, { once: true });
+
+            // Attach click handler with sound + delayed navigation to all game cards
+            const cards = document.querySelectorAll(".card");
+            cards.forEach(function (card) {
+                card.addEventListener("click", function () {
+                    const targetPage = this.getAttribute("data-href");
+                    playClassicalStrum();
+                    
+                    setTimeout(function () {
+                        window.location.href = targetPage;
+                    }, 350);
+                });
             });
+
+            // Fade-in animation on scroll
+            var fadeElements = document.querySelectorAll(".fade-in");
+
+            function fadeInOnScroll() {
+                fadeElements.forEach(function (element) {
+                    var rect = element.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.85) {
+                        element.classList.add("show");
+                    }
+                });
+            }
+
+            fadeInOnScroll();
+            window.addEventListener("scroll", fadeInOnScroll);
+        });
     </script>
 </body>
 </html>

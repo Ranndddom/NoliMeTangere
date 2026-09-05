@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="games.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noli Me Tangere</title>
+    <style>
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.show { opacity: 1; transform: translateY(0); }
+        .quiz-container { text-align: center; margin-top: 20px; }
+        .btn { padding: 10px 20px; margin: 10px; border: none; background-color: #007bff; color: white; cursor: pointer; border-radius: 5px; }
+        .btn:hover { background-color: #0056b3; }
+        #result { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>   
+<body>
+
+    <div class="container fade-in">
+        <nav class="nav fade-in">
+            <img src="noli.png" alt="Logo">
+            <div>
+                <a href="home.html">Home</a>
+                <a href="characters.html">Mga Tauhan</a>
+                <a href="chapters.html">Mga Kabanata</a>
+                <a href="games.html">Mga Laro</a>
+                <a href="about.html">Tungkol</a>
+            </div>
+        </nav>
+        
+        <header class="header fade-in">
+            <p>Tuklasin ang mga tema at karakter ng Noli Me Tangere, ang nobelang nagpabago sa Pilipinas magpakailanman.</p>
+        </header>
+
+        <section class="desc">
+            <h1>Kasaysayan o Katha?</h1>
+            <p>Tukuyin kung alin ang batay sa katotohanan at alin ang malikhaing akda!</p>
+        </section>
+
+        <main class="main" id="main">
+            <section class="content" id="content">
+                <div class="quiz-container">
+                    <div id="question" class="question">Loading...</div>
+                    <button id="trueBtn" class="btn">Kasaysayan</button>
+                    <button id="falseBtn" class="btn">Katha</button>
+                    <div id="result"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer fade-in" id="footer">
+            &copy; 2025 Noli Me Tangere. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        // Fade-in animation on scroll
+        document.addEventListener("DOMContentLoaded", function () {
+            const fadeElements = document.querySelectorAll(".fade-in");
+
+            function fadeInOnScroll() {
+                fadeElements.forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.85) {
+                        element.classList.add("show");
+                    }
+                });
+            }
+
+            fadeInOnScroll();
+            window.addEventListener("scroll", fadeInOnScroll);
+        });
+
+        // Quiz functionality
+        const questions = [
+            { question: "Si Maria Clara ay tunay na anak ni Kapitan Tiago.", answer: "Katha" },
+            { question: "Ang Noli Me Tangere ay unang nailathala sa Berlin, Germany.", answer: "Kasaysayan" },
+            { question: "Ang pangunahing tema ng nobela ay pagmamahal at pagkakaibigan.", answer: "Katha" },
+            { question: "Si Elias ay nagligtas kay Ibarra sa huling bahagi ng nobela.", answer: "Kasaysayan" },
+            { question: "Ang tauhang si Don Rafael ay ama ni Crisostomo Ibarra.", answer: "Kasaysayan" },
+            { question: "Si Padre Damaso ay isang mabait at mapagpakumbabang pari na tumulong kay Ibarra.", answer: "Katha" },
+            { question: "Ang Noli Me Tangere ay isinulat ni Jose Rizal upang ilantad ang katiwalian at pang-aapi ng mga Kastila sa Pilipinas.", answer: "Kasaysayan" },
+            { question: "Si Sisa ay isang mayamang babae na may masayang pamilya.", answer: "Katha" },
+            { question: "Si Kapitan Tiyago ay kilala bilang isang tapat at relihiyosong tao sa bayan ng San Diego.", answer: "Katha" },
+            { question: "Ang kwento ng Noli Me Tangere ay naganap noong panahon ng pananakop ng mga Amerikano.", answer: "Katha" },
+            { question: "Si Pilosopo Tasyo ay kinikilala sa bayan bilang isang taong may kakaibang pananaw at tinatawag ding baliw.", answer: "Kasaysayan" },
+            { question: "Ang salitang 'Noli Me Tangere' ay nagmula sa Bibliya na nangangahulugang 'Huwag Mo Akong Salingin'.", answer: "Kasaysayan" },
+            { question: "Si Basilio at Crispin ay mga anak ni Sisa na nagtatrabaho bilang mga sakristan sa kumbento.", answer: "Kasaysayan" },
+            { question: "Si Doña Victorina ay isang Pilipina na nagpanggap na Kastila at ikinasal kay Don Tiburcio de Espadaña.", answer: "Kasaysayan" },
+            { question: "Si Maria Clara ay pumasok sa kumbento ng mga madre pagkatapos akalain niyang patay na si Ibarra.", answer: "Kasaysayan" },
+            { question: "Si Crisostomo Ibarra ay nag-aral sa Europa nang pitong taon bago bumalik sa Pilipinas.", answer: "Kasaysayan" },
+            { question: "Si Padre Salvi ang kura paroko ng San Diego na may lihim na pagnanasa kay Maria Clara.", answer: "Kasaysayan" },
+            { question: "Ang libingan ni Don Rafael Ibarra ay hinukay at inilipat sa libingan ng mga intsik o sementeryo ng mga aba sa utos ng kura.", answer: "Kasaysayan" },
+            { question: "Si Elias ang nagbabala kay Ibarra tungkol sa panganib habang itinatayo ang paaralan.", answer: "Kasaysayan" },
+            { question: "Ang nobela ay inihandog ni Jose Rizal sa Inang Bayan.", answer: "Kasaysayan" },
+            { question: "Si Sinang ang matalik na kaibigan ni Maria Clara na mahilig magbiro at masayahin.", answer: "Kasaysayan" },
+            { question: "Si Pedro ay ang mabait at responsableng asawa ni Sisa na tumutulong sa pag-aalaga sa kanilang mga anak.", answer: "Katha" },
+            { question: "Si Alperes ang pinuno ng mga Guwardiya Sibil sa San Diego na madalas maka-alitan ni Padre Damaso.", answer: "Kasaysayan" },
+            { question: "Si Salome ay ang kasintahan ni Elias na nakatira sa isang kubo sa tabi ng gubat.", answer: "Kasaysayan" },
+            { question: "Ang bangkay ni Crispin ay natagpuan sa loob ng kumbento kinabukasan.", answer: "Katha" },
+            { question: "Si Linares ay ang binatang pamangkin ni Don Tiburcio na inihain para mapangasawa ni Maria Clara.", answer: "Kasaysayan" },
+            { question: "Si Padre Damaso ang tunay na amang biyolohikal ni Maria Clara.", answer: "Kasaysayan" },
+            { question: "Ang Noli Me Tangere ay nailimbag noong taong 1887 sa tulong ng kaibigan ni Rizal na si Maximo Viola.", answer: "Kasaysayan" },
+            { question: "Si Elias ay namatay sa pag-aakalang siya ang pinagbabaril habang tumakas sila sa lawa kasama si Ibarra.", answer: "Kasaysayan" },
+            { question: "Si Don Rafael Ibarra ay namatay sa loob ng bilangguan dahil sa matinding sakit at pag-aakusa laban sa kanya.", answer: "Kasaysayan" },
+            { question: "Si Sisa ay tuluyang nabaliw dahil sa pagkawala at pagpanaw ng kanyang dalawang anak.", answer: "Kasaysayan" },
+            { question: "Si Tarsilo at Bruno ay ang magkapatid na pinilit umamin at nagdusa dahil sa paratang ng pag-aaklas.", answer: "Kasaysayan" },
+            { question: "Si Lucas ay ang kapatid ng taong madilaw na nagplano ng pag-aalsa upang idiin si Ibarra.", answer: "Kasaysayan" },
+            { question: "Ang bayan ng San Diego ay kathang-isip lamang ni Jose Rizal na sumasalamin sa kalagayan ng Pilipinas noon.", answer: "Kasaysayan" },
+            { question: "Si Maria Clara ay namatay habang mahimbing na natutulog sa kanyang silid sa kumbento sa huling kabanata.", answer: "Katha" },
+            { question: "Si Tiya Isabel ang nagpalaki at kumalinga kay Maria Clara mula nang pumanaw ang kanyang ina.", answer: "Kasaysayan" },
+            { question: "Ang buwaya sa lawa ay tinalo at pinatay ni Crisostomo Ibarra nang walang tulong sinuman.", answer: "Katha" },
+            { question: "Si Albino ay ang dating seminarista na sumapi sa mga nag-aalsa at naging kasintahan ni Sinang.", answer: "Kasaysayan" },
+            { question: "Ang pagpapatayo ng paaralan ni Ibarra ay natapos at ginamit nang mahabang panahon para sa mga bata.", answer: "Katha" },
+            { question: "Si Jose Rizal ay nagsimulang sumulat ng Noli Me Tangere habang siya ay nasa Paris at Madrid.", answer: "Kasaysayan" }
+        ];
+
+        let currentQuestionIndex = 0;
+        const questionElement = document.getElementById("question");
+        const resultElement = document.getElementById("result");
+        const trueBtn = document.getElementById("trueBtn");
+        const falseBtn = document.getElementById("falseBtn");
+
+        function displayQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                questionElement.textContent = questions[currentQuestionIndex].question;
+                resultElement.textContent = "";
+            } else {
+                questionElement.textContent = "Quiz completed!";
+                trueBtn.style.display = "none";
+                falseBtn.style.display = "none";
+                resultElement.textContent = "Salamat sa pagsagot!";
+            }
+        }
+
+        function checkAnswer(userAnswer) {
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            if (userAnswer === correctAnswer) {
+                resultElement.textContent = "Tama!";
+                resultElement.style.color = "green";
+            } else {
+                resultElement.textContent = "Mali!";
+                resultElement.style.color = "red";
+            }
+            currentQuestionIndex++;
+            setTimeout(displayQuestion, 1000);
+        }
+
+        trueBtn.addEventListener("click", () => checkAnswer("Kasaysayan"));
+        falseBtn.addEventListener("click", () => checkAnswer("Katha"));
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+
+</body>
+</html>

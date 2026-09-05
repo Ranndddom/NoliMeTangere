@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="games.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noli Me Tangere</title>
+</head>
+
+<body>
+
+    <div class="container fade-in">
+        <nav class="nav fade-in">
+            <img src="noli.png" alt="Logo">
+            <div>
+                <a href="home.html">Home</a>
+                <a href="characters.html">Mga Tauhan</a>
+                <a href="chapters.html">Mga Kabanata</a>
+                <a href="games.html">Mga Laro</a>
+                <a href="about.html">Tungkol</a>
+            </div>
+        </nav>
+        
+        <header class="header fade-in">
+            <p>Tuklasin ang mga tema at karakter ng Noli Me Tangere, ang nobelang nagpabago sa Pilipinas magpakailanman.</p>
+        </header>
+
+        <section class="desc">
+            <h1>Kabanata Kronika: Alin Nga Ba?</h1>
+            <p>Tukuyin ang tamang kabanata mula sa mga pahiwatig at pangyayari sa kwento!</p>
+        </section>
+
+        <main class="main" id="main">
+
+            <section class="content" id="content">
+                
+                <div class="quiz-box">
+                    <h2>Anong kabanata nangyari ito?</h2>
+                    <p id="quote">..</p>
+                    <ul class="options">
+                        <li onclick="checkAnswer(this)">Option 1</li>
+                        <li onclick="checkAnswer(this)">Option 2</li>
+                        <li onclick="checkAnswer(this)">Option 3</li>
+                        <li onclick="checkAnswer(this)">Option 4</li>
+                    </ul>
+                    <button onclick="loadQuestion()">Refresh Question</button>
+                </div>
+
+            </section>
+        </main>
+
+        <footer class="footer" id="footer">
+            &copy; 2025 Noli Me Tangere. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var main = document.getElementById("main");
+            var footer = document.getElementById("footer");
+            var content = document.getElementById("content");
+
+            var fadeElements = document.querySelectorAll(".fade-in");
+
+        function fadeInOnScroll() {
+            fadeElements.forEach(function (element) {
+                var rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    element.classList.add("show");
+                }
+            });
+        }
+            fadeInOnScroll();
+                window.addEventListener("scroll", fadeInOnScroll);
+            });
+    </script>
+
+    <script>
+          const quizData = [
+    {
+        quote: "Anong kabanata nangyari ang isang malaking handaan sa bahay ni Kapitan Tiyago na dinaluhan ng mga kilalang tao sa lipunan?",
+        correct: "Kabanata 1",
+        options: ["Kabanata 1", "Kabanata 3", "Kabanata 6", "Kabanata 10"]
+    },
+    {
+        quote: "Anong kabanata unang nagpakilala si Crisostomo Ibarra at kung saan siya ay tinalikuran ni Padre Damaso nang mag-alok siya ng kamay?",
+        correct: "Kabanata 2",
+        options: ["Kabanata 1", "Kabanata 2", "Kabanata 4", "Kabanata 7"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang hapunan kung saan nagalit si Padre Damaso dahil napunta sa kanya ang leeg at pakpak ng tinola?",
+        correct: "Kabanata 3",
+        options: ["Kabanata 2", "Kabanata 3", "Kabanata 5", "Kabanata 8"]
+    },
+    {
+        quote: "Anong kabanata ikinuwento ni Tenyente Guevarra kay Ibarra ang tunay at malagim na sinapit ng kanyang amang si Don Rafael sa loob ng kulungan?",
+        correct: "Kabanata 4",
+        options: ["Kabanata 1", "Kabanata 4", "Kabanata 9", "Kabanata 14"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang pagtingin ni Ibarra sa bintana kung saan nakita niya ang isang magandang dalaga (Maria Clara) na parang panaginip sa gabing madilim?",
+        correct: "Kabanata 5",
+        options: ["Kabanata 5", "Kabanata 7", "Kabanata 12", "Kabanata 16"]
+    },
+    {
+        quote: "Anong kabanata isinalaysay ang kasaysayan, kayamanan, at ang pagiging sunud-sunuran ni Kapitan Tiyago sa mga prayle?",
+        correct: "Kabanata 6",
+        options: ["Kabanata 3", "Kabanata 6", "Kabanata 10", "Kabanata 15"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang matamis na suyuan nina Ibarra at Maria Clara sa asotea kung saan binasa nila ang lumang liham ng binata?",
+        correct: "Kabanata 7",
+        options: ["Kabanata 5", "Kabanata 7", "Kabanata 22", "Kabanata 36"]
+    },
+    {
+        quote: "Anong kabanata pinagmasdan ni Ibarra ang Maynila mula sa kalesa at napansin na walang asenso ang bayan matapos ang pitong taon?",
+        correct: "Kabanata 8",
+        options: ["Kabanata 4", "Kabanata 8", "Kabanata 11", "Kabanata 19"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang pag-uutos ni Padre Damaso kay Kapitan Tiyago na sirain ang kasunduang ipakasal si Maria Clara kay Ibarra?",
+        correct: "Kabanata 9",
+        options: ["Kabanata 9", "Kabanata 18", "Kabanata 31", "Kabanata 43"]
+    },
+    {
+        quote: "Anong kabanata isinalaysay ang alamat ng San Diego at kung paano naging pag-aari ng nuno ni Ibarra ang kakahuyan sa bayang iyon?",
+        correct: "Kabanata 10",
+        options: ["Kabanata 6", "Kabanata 10", "Kabanata 13", "Kabanata 25"]
+    },
+    {
+        quote: "Anong kabanata ipinaliwanag kung sino ang dalawang totoong makapangyarihan sa bayan ng San Diego: ang Kura at ang Alperes?",
+        correct: "Kabanata 11",
+        options: ["Kabanata 11", "Kabanata 15", "Kabanata 20", "Kabanata 40"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang pag-uusap ng dalawang sepulturero habang humuhukay sila ng libingan sa ilalim ng malakas na ulan?",
+        correct: "Kabanata 12",
+        options: ["Kabanata 12", "Kabanata 14", "Kabanata 26", "Kabanata 63"]
+    },
+    {
+        quote: "Anong kabanata napag-alaman ni Ibarra na ang bangkay ng kanyang ama ay itinapon sa lawa sa utos ng malaking kura?",
+        correct: "Kabanata 13",
+        options: ["Kabanata 4", "Kabanata 13", "Kabanata 20", "Kabanata 32"]
+    },
+    {
+        quote: "Anong kabanata unang ipinakilala si Tasyo, ang matalinong matanda na tinatawag ng ilan na pilosopo at ng iba na baliw?",
+        correct: "Kabanata 14",
+        options: ["Kabanata 8", "Kabanata 14", "Kabanata 25", "Kabanata 53"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang matinding pagpaparusa sa isang batang sakristan matapos siyang pagbintangan ng pagnanakaw ng dalawang onsa?",
+        correct: "Kabanata 15",
+        options: ["Kabanata 61", "Kabanata 14", "Kabanata 15", "Kabanata 4"]
+    },
+    {
+        quote: "Anong kabanata ipinakita ang pagmamahal at paghihintay ng isang ina na si Sisa para sa pag-uwi ng kanyang dalawang anak na sakristan?",
+        correct: "Kabanata 16",
+        options: ["Kabanata 15", "Kabanata 16", "Kabanata 21", "Kabanata 39"]
+    },
+    {
+        quote: "Anong kabanata umuwing duguan si Basilio, ibinalita ang pagdukot kay Crispin, at nanaginip ng masama tungkol sa kapatid?",
+        correct: "Kabanata 17",
+        options: ["Kabanata 16", "Kabanata 17", "Kabanata 24", "Kabanata 63"]
+    },
+    {
+        quote: "Anong kabanata nagpunta si Sisa sa kumbento upang hanapin si Crispin ngunit ipinagtabuyan lamang siya ng tagapagluto at ng mga prayle?",
+        correct: "Kabanata 18",
+        options: ["Kabanata 12", "Kabanata 18", "Kabanata 21", "Kabanata 39"]
+    },
+    {
+        quote: "Anong kabanata ibinahagi ng isang guro kay Ibarra ang mga suliranin sa sistema ng edukasyon at ang kawalan ng sariling gusali ng paaralan?",
+        correct: "Kabanata 19",
+        options: ["Kabanata 14", "Kabanata 19", "Kabanata 25", "Kabanata 33"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang pagtatalo sa tribunal sa pagitan ng mga matatanda at kabataan tungkol sa kung paano ipagdiriwang ang pista?",
+        correct: "Kabanata 20",
+        options: ["Kabanata 11", "Kabanata 20", "Kabanata 26", "Kabanata 40"]
+    },
+    {
+        quote: "Anong kabanata dinakip si Sisa ng mga guwardiya sibil, pinaglakad nang walang sapin sa paa, at tuluyang nawala sa sarili?",
+        correct: "Kabanata 21",
+        options: ["Kabanata 16", "Kabanata 21", "Kabanata 39", "Kabanata 63"]
+    },
+    {
+        quote: "Anong kabanata palihim na nakipagkita si Maria Clara kay Ibarra upang humingi ng paumanhin dahil hindi siya makakasama sa pamamasyal?",
+        correct: "Kabanata 22",
+        options: ["Kabanata 7", "Kabanata 22", "Kabanata 27", "Kabanata 60"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang pangingisda sa lawa kung saan iniligtas ni Ibarra si Elias mula sa isang malaking buwaya?",
+        correct: "Kabanata 23",
+        options: ["Kabanata 23", "Kabanata 24", "Kabanata 45", "Kabanata 61"]
+    },
+    {
+        quote: "Anong kabanata palihim na sumunod at nagtago si Padre Salvi sa kagubatan upang silipin ang naliligong sina Maria Clara at ang kanyang mga kaibigan?",
+        correct: "Kabanata 24",
+        options: ["Kabanata 18", "Kabanata 24", "Kabanata 30", "Kabanata 44"]
+    },
+    {
+        quote: "Anong kabanata bumisita si Ibarra sa bahay ni Pilosopo Tasyo upang humingi ng payo tungkol sa ipapatayo niyang paaralan?",
+        correct: "Kabanata 25",
+        options: ["Kabanata 14", "Kabanata 25", "Kabanata 33", "Kabanata 53"]
+    },
+    {
+        quote: "Anong kabanata inilarawan ang labis na karangyaan at paghahanda ng buong bayan ng San Diego para sa bisperas ng kapistahan?",
+        correct: "Kabanata 26",
+        options: ["Kabanata 20", "Kabanata 26", "Kabanata 29", "Kabanata 38"]
+    },
+    {
+        quote: "Anong kabanata nagkaroon ng marangyang piging kina Kapitan Tiyago kung saan dumating si Maria Clara at nagpakita ng magandang gintong agnos?",
+        correct: "Kabanata 27",
+        options: ["Kabanata 1", "Kabanata 22", "Kabanata 27", "Kabanata 36"]
+    },
+    {
+        quote: "Anong kabanata isiniwalat ang iba't ibang kaisipan at balita tungkol sa pista sa pamamagitan ng pagbabasa ng mga liham mula sa iba't ibang tauhan?",
+        correct: "Kabanata 28",
+        options: ["Kabanata 28", "Kabanata 35", "Kabanata 48", "Kabanata 56"]
+    },
+    {
+        quote: "Anong kabanata umaga na sa San Diego at nag-umpisa ang parada na pinangunahan ng mga banda at ng marangyang prusisyon?",
+        correct: "Kabanata 29",
+        options: ["Kabanata 20", "Kabanata 26", "Kabanata 29", "Kabanata 38"]
+    },
+    {
+        quote: "Anong kabanata nagsisiksikan ang mga tao sa loob ng simbahan na sobrang init, at pinagmasdan ni Padre Salvi si Maria Clara?",
+        correct: "Kabanata 30",
+        options: ["Kabanata 9", "Kabanata 30", "Kabanata 31", "Kabanata 44"]
+    },
+    {
+        quote: "Anong kabanata binigkas ni Padre Damaso ang kanyang napakahabang sermon na punong-puno ng pagpaparining laban kay Ibarra?",
+        correct: "Kabanata 31",
+        options: ["Kabanata 24", "Kabanata 30", "Kabanata 31", "Kabanata 62"]
+    },
+    {
+        quote: "Anong kabanata bumagsak ang malaking bato at panghugos na muntik nang pumatay kay Ibarra habang itinatayo ang kanyang paaralan?",
+        correct: "Kabanata 32",
+        options: ["Kabanata 32", "Kabanata 33", "Kabanata 54", "Kabanata 55"]
+    },
+    {
+        quote: "Anong kabanata lihim na kinausap ni Elias si Ibarra upang sabihing may mga kaaway siyang nagnanais sa kanyang buhay?",
+        correct: "Kabanata 33",
+        options: ["Kabanata 25", "Kabanata 33", "Kabanata 45", "Kabanata 49"]
+    },
+    {
+        quote: "Anong kabanata sinugod at pilit na sinaksak ni Ibarra si Padre Damaso dahil sa matinding pang-iinsulto nito sa alaala ng kanyang ama?",
+        correct: "Kabanata 34",
+        options: ["Kabanata 3", "Kabanata 23", "Kabanata 34", "Kabanata 60"]
+    },
+    {
+        quote: "Anong kabanata naging usap-usapan sa buong bayan ang ginawang pag-atake ni Ibarra at ang kanyang naging ekskomunikasyon?",
+        correct: "Kabanata 35",
+        options: ["Kabanata 35", "Kabanata 36", "Kabanata 43", "Kabanata 56"]
+    },
+    {
+        quote: "Anong kabanata nag-iyakan si Maria Clara at Kapitan Tiyago dahil ipinagbawal ng simbahan na magkita o magpakasal sila ni Ibarra?",
+        correct: "Kabanata 36",
+        options: ["Kabanata 9", "Kabanata 36", "Kabanata 44", "Kabanata 60"]
+    },
+    {
+        quote: "Anong kabanata dumating ang Kapitan Heneral sa San Diego at nagpakita ng suporta kay Ibarra laban sa mga prayle?",
+        correct: "Kabanata 37",
+        options: ["Kabanata 11", "Kabanata 37", "Kabanata 41", "Kabanata 57"]
+    },
+    {
+        quote: "Anong kabanata muling idinaos ang prusisyon para sa pista kung saan umawit si Maria Clara sa harap ng bahay ni Kapitan Tiyago?",
+        correct: "Kabanata 38",
+        options: ["Kabanata 29", "Kabanata 38", "Kabanata 47", "Kabanata 52"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang brutal na pang-aalipusta ng isang malupit na babae (Doña Consolacion) sa baliw na si Sisa, kung saan pinilit niya itong kumanta at sumayaw gamit ang latigo?",
+        correct: "Kabanata 39",
+        options: ["Kabanata 21", "Kabanata 39", "Kabanata 47", "Kabanata 57"]
+    },
+    {
+        quote: "Anong kabanata sumiklab ang kaguluhan sa dulaan matapos subukang patigilin ni Padre Salvi ang palabas ngunit pinigilan siya ng awtoridad?",
+        correct: "Kabanata 40",
+        options: ["Kabanata 20", "Kabanata 35", "Kabanata 40", "Kabanata 55"]
+    },
+    {
+        quote: "Anong kabanata pinuntahan ni Elias si Ibarra sa bahay nito upang ibalita ang hinaing ng mga tulisan at mga inuusig ng lipunan?",
+        correct: "Kabanata 41",
+        options: ["Kabanata 33", "Kabanata 41", "Kabanata 49", "Kabanata 54"]
+    },
+    {
+        quote: "Anong kabanata dumating sina Don Tiburcio de Espadaña at ang asawa niyang si Doña Victorina upang gamutin ang sakit ni Maria Clara?",
+        correct: "Kabanata 42",
+        options: ["Kabanata 42", "Kabanata 43", "Kabanata 47", "Kabanata 60"]
+    },
+    {
+        quote: "Anong kabanata binalak ni Padre Damaso na ipakasal si Maria Clara kay Alfonso Linares, isang pamangkin ng kaibigan ni Don Tiburcio?",
+        correct: "Kabanata 43",
+        options: ["Kabanata 36", "Kabanata 43", "Kabanata 60", "Kabanata 62"]
+    },
+    {
+        quote: "Anong kabanata pinilit mangumpisal si Maria Clara kay Padre Salvi, na lalong nagpalala sa lihim na pagnanasa ng pari sa dalaga?",
+        correct: "Kabanata 44",
+        options: ["Kabanata 30", "Kabanata 44", "Kabanata 51", "Kabanata 62"]
+    },
+    {
+        quote: "Anong kabanata dinala ni Elias si Ibarra sa gubat upang makaharap si Kapitan Pablo, ang pinuno ng mga rebeldeng inuusig?",
+        correct: "Kabanata 45",
+        options: ["Kabanata 24", "Kabanata 41", "Kabanata 45", "Kabanata 50"]
+    },
+    {
+        quote: "Anong kabanata isinalaysay ang matinding pagkagumon ng bayan sa sabong at dito nakita ang dalawang magkapatid (Tarsilo at Bruno) na pinangakuan ni Lucas ng salapi?",
+        correct: "Kabanata 46",
+        options: ["Kabanata 20", "Kabanata 35", "Kabanata 46", "Kabanata 56"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang nakakatawa ngunit mapanirang sagupaan at sabunutan nina Doña Consolacion at Doña Victorina sa kalsada?",
+        correct: "Kabanata 47",
+        options: ["Kabanata 39", "Kabanata 42", "Kabanata 47", "Kabanata 57"]
+    },
+    {
+        quote: "Anong kabanata ipinaalam ni Ibarra kay Maria Clara na natanggal na ang kanyang ekskomunikasyon at maari na silang magpakasal?",
+        correct: "Kabanata 48",
+        options: ["Kabanata 35", "Kabanata 48", "Kabanata 51", "Kabanata 60"]
+    },
+    {
+        quote: "Anong kabanata inihayag ni Elias ang tatlong hinihinging reporma ng mga inuusig laban sa mga prayle at gwardiya sibil?",
+        correct: "Kabanata 49",
+        options: ["Kabanata 41", "Kabanata 45", "Kabanata 49", "Kabanata 59"]
+    },
+    {
+        quote: "Anong kabanata isinalaysay ni Elias ang malagim na nakaraan ng kanyang ninuno (Balat) na labis na dumanas ng kalupitan?",
+        correct: "Kabanata 50",
+        options: ["Kabanata 45", "Kabanata 50", "Kabanata 54", "Kabanata 61"]
+    },
+    {
+        quote: "Anong kabanata napansin ng bayan ang maraming pagbabago kina Linares, Maria Clara, at Padre Salvi dahil sa pagpapanggap at kasinungalingan?",
+        correct: "Kabanata 51",
+        options: ["Kabanata 43", "Kabanata 48", "Kabanata 51", "Kabanata 56"]
+    },
+    {
+        quote: "Anong kabanata nagtagpo sa sementeryo ang mga lihim na tauhan ni Lucas na nagpaplano ng pag-aaklas upang isisi kay Ibarra?",
+        correct: "Kabanata 52",
+        options: ["Kabanata 12", "Kabanata 38", "Kabanata 52", "Kabanata 55"]
+    },
+    {
+        quote: "Anong kabanata sinabi ni Pilosopo Tasyo kay Don Filipo na malapit na siyang mamatay, at napansin niya ang nalalapit na malaking unos?",
+        correct: "Kabanata 53",
+        options: ["Kabanata 14", "Kabanata 25", "Kabanata 53", "Kabanata 63"]
+    },
+    {
+        quote: "Anong kabanata ibinunyag ni Padre Salvi sa Alperes ang balak na pag-aaklas matapos niyang marinig ang pekeng kumpisal tungkol dito?",
+        correct: "Kabanata 54",
+        options: ["Kabanata 44", "Kabanata 52", "Kabanata 54", "Kabanata 55"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang pagsalakay ng mga huwad na tulisan at guwardiya sibil na nauwi sa pagkakakulong ni Crisostomo Ibarra?",
+        correct: "Kabanata 55",
+        options: ["Kabanata 24", "Kabanata 38", "Kabanata 43", "Kabanata 55"]
+    },
+    {
+        quote: "Anong kabanata kumalat ang sari-saring usap-usapan at kasinungalingan tungkol sa pag-aaklas at sa pagkakasangkot ni Ibarra?",
+        correct: "Kabanata 56",
+        options: ["Kabanata 46", "Kabanata 52", "Kabanata 56", "Kabanata 58"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang matinding tortyur at pagpapahirap kay Tarsilo sa balon upang umamin siya, kahit na siya'y nanindigang inosente si Ibarra?",
+        correct: "Kabanata 57",
+        options: ["Kabanata 27", "Kabanata 37", "Kabanata 47", "Kabanata 57"]
+    },
+    {
+        quote: "Anong kabanata dumaan ang mga bilanggong nakagapos kasama si Ibarra, habang sinusumpa at binabato sila ng mga mismong kababayan niya?",
+        correct: "Kabanata 58",
+        options: ["Kabanata 35", "Kabanata 55", "Kabanata 58", "Kabanata 61"]
+    },
+    {
+        quote: "Anong kabanata mabilis na nag-usap-usap ang mga tao sa Maynila tungkol sa pag-aaklas sa San Diego at kung paano ito makaaapekto sa pulitika?",
+        correct: "Kabanata 59",
+        options: ["Kabanata 8", "Kabanata 56", "Kabanata 59", "Kabanata 62"]
+    },
+    {
+        quote: "Anong kabanata ginanap ang kasunduan sa pagpapakasal ni Maria Clara kay Linares habang nagkaroon siya ng saglit at palihim na paalam kay Ibarra na nakatakas?",
+        correct: "Kabanata 60",
+        options: ["Kabanata 36", "Kabanata 43", "Kabanata 60", "Kabanata 62"]
+    },
+    {
+        quote: "Anong kabanata nangyari ang madugong pagtugis sa lawa kung saan tumalon si Elias sa tubig upang iligaw ang mga guwardiya sibil at pinagbabaril siya?",
+        correct: "Kabanata 61",
+        options: ["Kabanata 23", "Kabanata 55", "Kabanata 61", "Kabanata 63"]
+    },
+    {
+        quote: "Anong kabanata ipinaliwanag ni Padre Damaso kay Maria Clara na siya ang tunay nitong ama kaya ayaw niya kay Ibarra?",
+        correct: "Kabanata 62",
+        options: ["Kabanata 9", "Kabanata 31", "Kabanata 44", "Kabanata 62"]
+    },
+    {
+        quote: "Anong kabanata sa bisperas ng Pasko tuluyang binawian ng buhay si Sisa matapos makilala ang duguan na si Basilio, at dito rin namatay si Elias?",
+        correct: "Kabanata 63",
+        options: ["Kabanata 16", "Kabanata 21", "Kabanata 53", "Kabanata 63"]
+    },
+    {
+        quote: "Anong kabanata nakita sa epilogo ang naging wakas ng mga natirang tauhan tulad ng pagkabaliw ni Padre Damaso at ang pagpasok ni Maria Clara sa kumbento?",
+        correct: "Kabanata 64 (Katapusan)",
+        options: ["Kabanata 60", "Kabanata 62", "Kabanata 63", "Kabanata 64 (Katapusan)"]
+    },
+    {
+        quote: "Anong kabanata (na tinawag na 'Ang Nawawalang Kabanata') ipinakita ang paalam ni Elias sa kanyang pinakamamahal na si Salome?",
+        correct: "Kabanata X (Elias at Salome)",
+        options: ["Kabanata 24", "Kabanata X (Elias at Salome)", "Kabanata 50", "Kabanata 61"]
+    },
+    {
+        quote: "Saang kabanata unang nalaman ni Ibarra na may kinalaman si Padre Damaso sa paghihirap ng kanyang ama sa loob ng piitan?",
+        correct: "Kabanata 4",
+        options: ["Kabanata 2", "Kabanata 4", "Kabanata 9", "Kabanata 13"]
+    },
+    {
+        quote: "Sa anong kabanata inihulog ni Ibarra si Padre Damaso sa sahig habang hawak ang kutsilyo at halos patayin ito sa galit?",
+        correct: "Kabanata 34",
+        options: ["Kabanata 3", "Kabanata 20", "Kabanata 34", "Kabanata 40"]
+    },
+    {
+        quote: "Saang kabanata ibinunyag ang sulat mula sa ina ni Maria Clara na nagpapatunay sa lihim ng pagkatao ng dalaga?",
+        correct: "Kabanata 60",
+        options: ["Kabanata 36", "Kabanata 44", "Kabanata 60", "Kabanata 62"]
+    },
+    {
+        quote: "Sa anong kabanata naglakad na may sunong na sulo ang mga tulisan papunta sa bahay-pamahalaan?",
+        correct: "Kabanata 55",
+        options: ["Kabanata 45", "Kabanata 52", "Kabanata 55", "Kabanata 61"]
+    },
+    {
+        quote: "Sa anong kabanata sinunog ni Elias ang bahay ni Crisostomo Ibarra upang tuluyang sirain ang ebidensya laban sa kanya bago dumating ang mga awtoridad?",
+        correct: "Kabanata 54",
+        options: ["Kabanata 41", "Kabanata 54", "Kabanata 58", "Kabanata 63"]
+    }
+        ];
+
+        function loadQuestion() {
+            let randomIndex = Math.floor(Math.random() * quizData.length);
+            let question = quizData[randomIndex];
+
+            document.getElementById("quote").textContent = `"${question.quote}"`;
+            
+            let shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
+            let optionsList = document.querySelectorAll(".options li");
+
+            optionsList.forEach((option, index) => {
+                option.textContent = shuffledOptions[index];
+                option.className = "";
+                option.onclick = function () {
+                    checkAnswer(option, question.correct);
+                };
+            });
+        }
+
+        function checkAnswer(selectedOption, correctAnswer) {
+            let optionsList = document.querySelectorAll(".options li");
+
+            optionsList.forEach(option => {
+                option.className = option.textContent === correctAnswer ? "correct" : "wrong";
+            });
+        }
+
+        window.onload = loadQuestion;
+    </script>
+</body>
+
+</html>

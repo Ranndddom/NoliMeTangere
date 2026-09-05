@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="games.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noli Me Tangere - Jumbled Letters</title>
+    
+    <style>
+        /* Modernized Custom Pop-up / Toast Notification Styles */
+        .toast-popup {
+            position: fixed;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 28px;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'News Cycle', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bounce effect */
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Space between icon and text */
+        }
+        
+        .toast-popup.show {
+            opacity: 1;
+            visibility: visible;
+            top: 40px; /* Slides down */
+        }
+        
+        /* Toast Colors */
+        .toast-popup.success {
+            background: linear-gradient(135deg, #43a047, #2e7d32);
+            border-bottom: 4px solid #1b5e20;
+        }
+        
+        .toast-popup.error {
+            background: linear-gradient(135deg, #e53935, #c62828);
+            border-bottom: 4px solid #b71c1c;
+        }
+        
+        .toast-popup.warning {
+            background: linear-gradient(135deg, #fb8c00, #ef6c00);
+            border-bottom: 4px solid #e65100;
+        }
+
+        /* SVG Icon styling inside toast */
+        .toast-popup svg {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container fade-in">
+        <nav class="nav fade-in">
+            <img src="noli.png" alt="Logo">
+            <div>
+              <a href="home.html">Home</a>
+                <a href="characters.html">Mga Tauhan</a>
+                <a href="chapters.html">Mga Kabanata</a>
+                <a href="games.html">Mga Laro</a>
+                <a href="about.html">Tungkol</a>
+            </div>
+        </nav>
+        
+        <header class="header fade-in">
+            <p>Tuklasin ang mga tema at karakter ng Noli Me Tangere, ang nobelang nagpabago sa Pilipinas magpakailanman.</p>
+        </header>
+
+        <section class="desc">
+            <h1>Hulaan Mo Ako: Pinaghalong Letra!</h1>
+            <p>Hulaan ang tamang karakter sa pamamagitan ng pinaghalong letra!</p>
+        </section>
+
+        <main class="main" id="main">
+            <section class="content" id="content">
+                
+                <div class="jumbled">
+                    <h2>Jumbled Letter Quiz</h2>
+                    <div class="jlq-content">
+                        <p class="words"> </p>
+                        <input type="text" placeholder="I-type ang tamang salita dito">
+                        <div class="buttons">
+                            <button class="refresh-word">Ibahin ang Salita</button>
+                            <button class="check-word">Ipasa ang Sagot</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <footer class="footer" id="footer">
+            &copy; 2025 Noli Me Tangere. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- Scroll Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var fadeElements = document.querySelectorAll(".fade-in");
+            function fadeInOnScroll() {
+                fadeElements.forEach(function (element) {
+                    var rect = element.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.85) {
+                        element.classList.add("show");
+                    }
+                });
+            }
+            fadeInOnScroll();
+            window.addEventListener("scroll", fadeInOnScroll);
+        });
+    </script>
+
+    <!-- Game Logic Script -->
+    <script>
+        let words = [
+            {word: "crisostomo"}, {word: "tiyago"}, {word: "alperez"}, {word: "victorina"},
+            {word: "basilio"}, {word: "crispin"}, {word: "salvi"}, {word: "elias"}, 
+            {word: "salome"}, {word: "damaso"}, {word: "maria"}, {word: "clara"}, 
+            {word: "tasyo"}, {word: "sisa"}, {word: "consolacion"}, {word: "linares"}, 
+            {word: "sibyla"}, {word: "rafael"}, {word: "erehe"}, {word: "pilibustero"}, 
+            {word: "prayle"}, {word: "asotea"}, {word: "kumbento"}, {word: "kuwartel"}, 
+            {word: "kura"}, {word: "sakristan"}, {word: "tulisan"}, {word: "buwaya"}, 
+            {word: "onsa"}, {word: "sementeryo"}, {word: "sepulturero"}, {word: "kampana"}, 
+            {word: "kumpisalan"}, {word: "piyesta"}, {word: "paaralan"}, {word: "lawa"}, 
+            {word: "gubat"}, {word: "indio"}, {word: "kastila"}, {word: "beaterio"}, 
+            {word: "kanser"}, {word: "lipunan"}, {word: "rebolusyon"}, {word: "kalayaan"}, 
+            {word: "gwardiya"}, {word: "rehas"}, {word: "alahas"}, {word: "palapala"}
+        ];
+
+        const wordText = document.querySelector(".words");
+        const guessInput = document.querySelector("input");
+        const refreshBtn = document.querySelector(".refresh-word");
+        const checkBtn = document.querySelector(".check-word");
+        let currentWord = "";
+
+        // SVG Icons bilang text strings
+        const icons = {
+            success: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
+            error: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+            warning: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
+        };
+
+        // Custom Pop-up Function (Updated to use innerHTML for SVGs)
+        const showToast = (message, type) => {
+            let toast = document.getElementById("toast-popup");
+            if (!toast) {
+                toast = document.createElement("div");
+                toast.id = "toast-popup";
+                document.body.appendChild(toast);
+            }
+            
+            toast.className = `toast-popup ${type}`;
+            
+            // Pagsamahin ang SVG icon at ang mensahe
+            toast.innerHTML = `${icons[type]} <span>${message}</span>`;
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.add("show");
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        };
+
+        const shuffleWord = (word) => {
+            let wordArray = word.split("");
+            for (let i = wordArray.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
+            }
+            return wordArray.join("");
+        };
+
+        const initGame = () => {
+            let randomIndex = Math.floor(Math.random() * words.length);
+            currentWord = words[randomIndex].word; 
+            let scrambled = shuffleWord(currentWord);
+            while (scrambled === currentWord) {
+                scrambled = shuffleWord(currentWord);
+            }
+            wordText.innerText = scrambled; 
+            guessInput.value = ""; 
+        };
+
+        const checkAnswer = () => {
+            let userGuess = guessInput.value.trim().toLowerCase();
+
+            if (!userGuess) {
+                showToast("Maglagay ng salita!", "warning");
+                return;
+            }
+
+            if (userGuess === currentWord) {
+                showToast("Tama! Magaling!", "success");
+                setTimeout(() => {
+                    initGame();
+                }, 1500);
+            } else {
+                showToast("Mali! Subukan muli.", "error");
+                guessInput.value = ""; 
+            }
+        };
+
+        refreshBtn.addEventListener("click", initGame);
+        checkBtn.addEventListener("click", checkAnswer);
+        
+        guessInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkAnswer();
+            }
+        });
+
+        initGame();
+    </script>
+</body>
+</html>

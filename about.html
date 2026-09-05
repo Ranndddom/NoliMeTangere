@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="aboutstyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noli Me Tangere</title>
+</head>
+<body>
+    <div class="container fade-in">
+        <nav class="nav fade-in">
+            <img src="noli.png" alt="Logo">
+            <div>
+             <a href="home.html">Home</a>
+                <a href="characters.html">Mga Tauhan</a>
+                <a href="chapters.html">Mga Kabanata</a>
+                <a href="games.html">Mga Laro</a>
+                <a href="about.html">Tungkol</a>
+            </div>
+        </nav>
+        <header class="header fade-in">
+            <h1>Tungkol sa Amin</h1>
+        </header>
+        <main class="main fade-in" id="main">   
+            <div class="container">
+                <div class="section">
+                    <img src="teamnoli.png" alt="Who We Are" class="teamnoli fade-in">
+                    <div>
+                        <h2 class="fade-in">Sino Kami</h2>
+                        <p class="fade-in">Maligayang pagdating sa aming <em>Noli Me Tangere</em> website! Kami ay isang grupo ng mga mag-aaral sa ika-9 na baitang na may layuning matulungan ang aming kapwa mag-aaral sa mas madaling pag-unawa sa klasikong nobela ni Jose Rizal.
+                            <br><br> Sa pamamagitan ng madaling basahin na impormasyon, interactive na tampok, at kaakit-akit na disenyo, nais naming gawing mas masaya at epektibo ang pag-aaral ng <em>Noli Me Tangere</em>. 
+                            <br><br> Inaasahan naming kahit sa maliit na paraan, ay makatulong kami sa inyong pag-aaral at pagpapahalaga sa kahalagahan ng nobelang ito.</p>
+                    </div>
+                </div>
+                <div class="section reverse fade-in">
+                    <img src="https://i.pinimg.com/736x/2f/6c/35/2f6c35eb5fe9792cd8f9c6e9df27f968.jpg" alt="Noli">
+                    <div>
+                        <h2 class="fade-in">Ang Aming Misyon</h2>
+                        <p class="fade-in">Nais naming maging gabay para sa iba pang mag-aaral sa kanilang paglalakbay sa pag-unawa sa <em>Noli Me Tangere</em>. Sa pamamagitan ng aming website, naghahatid kami ng mahahalagang kaalaman, pagsusulit, at iba pang interaktibong aktibidad upang mas mapalalim ang pag-aaral.</p>
+                    </div>
+                </div>
+                <div class="team-section fade-in">
+                    <h2 class="fade-in">Ang Aming Grupo</h2>
+                    <div class="team-members">
+                        <div class="team-member">
+                            <img src="jade.jpg" alt="Miyembro 1" class="fade-in">
+                            <h3>Jaydelyn Escarla</h3>
+                        </div>
+                        <div class="team-member">
+                            <img src="ashley.jpg" alt="Miyembro 2" class="fade-in">
+                            <h3>Ashley Fajura</h3>
+                        </div>
+                        <div class="team-member">
+                            <img src="amira.jpg" alt="Miyembro 3" class="fade-in">
+                            <h3>Amira Gader</h3>
+                        </div>
+                        <div class="team-member">
+                            <img src="gia.jpg" alt="Miyembro 4" class="fade-in">
+                            <h3>Gianna Galabayo</h3>
+                        </div>
+                        <div class="team-member">
+                            <img src="janina.jpg" alt="Miyembro 5" class="fade-in">
+                            <h3>Janina Ascan</h3>
+                        </div>
+                    </div>
+                </div>
+        </main>
+        <footer class="footer" id="footer">
+            &copy; 2025 Noli Me Tangere. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var main = document.getElementById("main");
+            var content = document.getElementById("content");
+
+            var fadeElements = document.querySelectorAll(".fade-in");
+
+        function fadeInOnScroll() {
+            fadeElements.forEach(function (element) {
+                var rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    element.classList.add("show");
+                }
+            });
+        }
+            fadeInOnScroll();
+                window.addEventListener("scroll", fadeInOnScroll);
+            });
+</script>
+</body>
+</html>

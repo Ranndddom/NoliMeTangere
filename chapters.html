@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="chaptersstyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noli Me Tangere</title>
+</head>
+<body>
+    <div class="container fade-in">
+        <nav class="nav fade-in">
+            <img src="noli.png" alt="Logo">
+            <div>
+            <a href="home.html" onclick="if (window.location.pathname.includes('tes try.html')) location.reload();">Home</a>
+                <a href="characters.html">Mga Tauhan</a>
+                <a href="chapters.html">Mga Kabanata</a>
+                <a href="games.html">Mga Laro</a>
+                <a href="about.html">Tungkol</a>
+            </div>
+        </nav>
+        <header class="header fade-in">
+            <h1>Mga Kabanata</h1>
+        </header>
+        <main class="main fade-in fade-in" id="main">
+            <h2 class="fade-in">Mga Video Episodes</h2>
+            <div class="chapters-container fade-in">
+                <div class="chapters">
+                    <div class="chapter" onclick="openChapter(1)">EP1:  Kabanata 1-5</div>
+                    <div class="chapter" onclick="openChapter(2)">EP2:  Kabanata 6-10</div>
+                    <div class="chapter" onclick="openChapter(3)">EP3:  Kabanata 11-14</div>
+                    <div class="chapter" onclick="openChapter(4)">EP4:  Kabanata 15-18 & 21</div>
+                    <div class="chapter" onclick="openChapter(5)">EP5:  Kabanata 19-20 & 22</div>
+                    <div class="chapter" onclick="openChapter(6)">EP6:  Kabanata 23-25</div>
+                    <div class="chapter" onclick="openChapter(7)">EP7:  Kabanata 26-28</div>
+                    <div class="chapter" onclick="openChapter(8)">EP8:  Kabanata 29-32</div>
+                    <div class="chapter" onclick="openChapter(9)">EP9:  Kabanata 33-36</div>
+                    <div class="chapter" onclick="openChapter(10)">EP10:  Kabanata 37-38</div>
+                    <div class="chapter" onclick="openChapter(11)">EP11:  Kabanata 39-42</div>
+                    <div class="chapter" onclick="openChapter(12)">EP12:  Kabanata 43-45</div>
+                    <div class="chapter" onclick="openChapter(13)">EP13:  Kabanata 46, 50-51</div>
+                    <div class="chapter" onclick="openChapter(14)">EP14:  Kabanata 47-49</div>
+                    <div class="chapter" onclick="openChapter(15)">EP15:  Kabanata 53-54</div>
+                    <div class="chapter" onclick="openChapter(16)">EP16:  Kabanata 52, 55-56</div>
+                    <div class="chapter" onclick="openChapter(17)">EP17:  Kabanata 57 & 60</div>
+                    <div class="chapter" onclick="openChapter(18)">EP18:  Kabanata 58 - 59</div>
+                    <div class="chapter" onclick="openChapter(19)">EP19:  Kabanata 61-63</div>
+                    <div class="chapter" onclick="openChapter(20)">EP20:  Kabanata 64</div>
+                </div>
+            </div>
+        
+            <!-- iFrame to display selected chapter -->
+            <div class="chapterVideo fade-in">
+                <iframe id="chapterVideo" class="fade-in" width="560" height="500" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <h2 class="fade-in">📚 Mga Gabay sa Pag-aaral</h2>
+
+            <div class="resource-container">
+                <div class="resource-card fade-in">
+                    <a href="https://www.youtube.com/watch?v=7mus23KUh88" target="_blank">🎥 Buod ng Bawat Kabanata
+                    <p>Panoorin ang kumpletong buod ng bawat kabanata sa YouTube.</p> </a>
+                </div>
+        
+                <div class="resource-card fade-in">
+                    <a href="https://www.litcharts.com/lit/noli-me-tangere" target="_blank">📖 LitCharts Guide
+                    <p>Detalyadong pagsusuri at buod ng Noli Me Tangere.</p> </a>
+                </div>
+        
+                <div class="resource-card fade-in">
+                    <a href="https://noypi.com.ph/noli-me-tangere-kabanata-1-buod/?fbclid=IwY2xjawI5cmFleHRuA2FlbQIxMAABHRDYYukgYBuVdXW_g--MaOv-PTbpUkMHID3L0ik5TeDWVf6ELkSs5y2MuA_aem_bUdyKMl2XLDrI_ZNhnq-ww" target="_blank">🌏 Noypi Website
+                    <p>Isang maaasahang mapagkukunan ng impormasyong pampanitikan.</p> </a>
+                </div>
+            </div>
+            
+        </main>
+        <footer class="footer" id="footer">
+            &copy; 2025 Noli Me Tangere. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var main = document.getElementById("main");
+            var content = document.getElementById("content");
+
+            var fadeElements = document.querySelectorAll(".fade-in");
+
+        function fadeInOnScroll() {
+            fadeElements.forEach(function (element) {
+                var rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85) {
+                    element.classList.add("show");
+                }
+            });
+        }
+            fadeInOnScroll();
+                window.addEventListener("scroll", fadeInOnScroll);
+            });
+
+
+                function openChapter(chapter) {
+            const videoLinks = {
+                1: "https://www.youtube.com/embed/eOVhSCv0dmQ?si=TcVCmk-dJKGWHjzQ",
+                2: "https://www.youtube.com/embed/vQZqlngrBME?si=xlhcCarLtt8HXV2H",
+                3: "https://www.youtube.com/embed/48L1QENR1-k?si=XX8p6Hn8Jz3lDfSc",
+                4: "https://www.youtube.com/embed/MrKOmvLlPYg?si=tEUHo_kxnxujFbrp",
+                5: "https://www.youtube.com/embed/Tx-UNW-KLUw?si=l55vRvLIZghDmZFz",
+                6: "https://www.youtube.com/embed/mSRCCJYQxMo?si=onMn401HEkg48WKR",
+                7: "https://www.youtube.com/embed/j6vO8VPCt_g?si=-7W9qv8EtaY0TqEY",
+                8: "https://www.youtube.com/embed/HD-33WGsj84?si=8YFySIcy4Q9mIIuv",
+                9: "https://www.youtube.com/embed/I3bMJZXZV64?si=3LYD20-H4gFXlf_c",
+                10: "https://www.youtube.com/embed/2WvnKgc-jU0?si=Y7rq71y9HaAvuHl-",
+                11: "https://www.youtube.com/embed/s7z7OwUX1Rc?si=cKXvBeAaMMzEgqkw",
+                12: "https://www.youtube.com/embed/SIfhjKh7Mzk?si=a9WQ5AucJ-I2Yuih",
+                13: "https://www.youtube.com/embed/5mXNYjrhTzE?si=pws5y4AseagnPliu",
+                14: "https://www.youtube.com/embed/lcz1mh6ZPIc?si=IMTdLqe_sbUYhSWq",
+                15: "https://www.youtube.com/embed/XFKweBVXe2Y?si=PpDrYbeG23mp_QER",
+                16: "https://www.youtube.com/embed/LzdMFkb4ocY?si=V7WzVzMaw-E4Z-oV",
+                17: "https://www.youtube.com/embed/WFBFkmRcuyE?si=3anaMGfSEpthyjF-",
+                18: "https://www.youtube.com/embed/aygnRMwLO24?si=V4plLsIn1pYPWB1v",
+                19: "https://www.youtube.com/embed/hOw4MUE6Ec4?si=3F_Bjs6AsVBYz_7s",
+                20: "https://www.youtube.com/embed/qXAfTIuSXEs?si=-K_mqfvOcqzIaItx"
+            };
+            document.getElementById("chapterVideo").src = videoLinks[chapter];
+        }
+
+        const container = document.querySelector(".chapters-container");
+const chapters = document.querySelector(".chapters");
+
+let isDown = false;
+let startX;
+let scrollLeft;
+
+container.addEventListener("mousedown", (e) => {
+    isDown = true;
+    chapters.style.cursor = "grabbing"; // Change cursor when dragging
+    startX = e.pageX - container.offsetLeft;
+    scrollLeft = container.scrollLeft;
+});
+
+container.addEventListener("mouseleave", () => {
+    isDown = false;
+    chapters.style.cursor = "grab"; // Reset cursor
+});
+
+container.addEventListener("mouseup", () => {
+    isDown = false;
+    chapters.style.cursor = "grab"; // Reset cursor
+});
+
+container.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startX) * 2; // Adjust scroll speed
+    container.scrollLeft = scrollLeft - walk;
+});
+
+    </script>
+</body>
+</html>

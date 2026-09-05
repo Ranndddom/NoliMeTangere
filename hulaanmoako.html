@@ -60,6 +60,77 @@
             height: 24px;
             flex-shrink: 0;
         }
+
+        /* Modal/Hint Popup Styles */
+        .hint-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10000;
+        }
+
+        .hint-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hint-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            font-family: 'News Cycle', sans-serif;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-top: 5px solid #8B4513;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .hint-modal.show .hint-content {
+            transform: translateY(0);
+        }
+
+        .hint-content h3 {
+            margin-top: 0;
+            color: #5c2c16;
+            font-family: 'DM Serif Text', serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .hint-content p {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .hint-content button {
+            background: #8B4513;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .hint-content button:hover {
+            background: #5c2c16;
+        }
     </style>
 </head>
 
@@ -109,6 +180,15 @@
         </footer>
     </div>
 
+    <!-- Hint Modal Popup -->
+    <div class="hint-modal" id="hintModal">
+        <div class="hint-content">
+            <h3>Gabay / Paalala</h3>
+            <p id="hintText">Narito ang deskripsyon ng tauhan o salita...</p>
+            <button onclick="closeHintModal()">Subukan Muli</button>
+        </div>
+    </div>
+
     <!-- Audio Elements for Sound Effects -->
     <audio id="correctSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
     <audio id="wrongSound" src="https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3" preload="auto"></audio>
@@ -133,18 +213,54 @@
     <!-- Game Logic Script -->
     <script>
         let words = [
-            {word: "crisostomo"}, {word: "tiyago"}, {word: "alperez"}, {word: "victorina"},
-            {word: "basilio"}, {word: "crispin"}, {word: "salvi"}, {word: "elias"}, 
-            {word: "salome"}, {word: "damaso"}, {word: "maria"}, {word: "clara"}, 
-            {word: "tasyo"}, {word: "sisa"}, {word: "consolacion"}, {word: "linares"}, 
-            {word: "sibyla"}, {word: "rafael"}, {word: "erehe"}, {word: "pilibustero"}, 
-            {word: "prayle"}, {word: "asotea"}, {word: "kumbento"}, {word: "kuwartel"}, 
-            {word: "kura"}, {word: "sakristan"}, {word: "tulisan"}, {word: "buwaya"}, 
-            {word: "onsa"}, {word: "sementeryo"}, {word: "sepulturero"}, {word: "kampana"}, 
-            {word: "kumpisalan"}, {word: "piyesta"}, {word: "paaralan"}, {word: "lawa"}, 
-            {word: "gubat"}, {word: "indio"}, {word: "kastila"}, {word: "beaterio"}, 
-            {word: "kanser"}, {word: "lipunan"}, {word: "rebolusyon"}, {word: "kalayaan"}, 
-            {word: "gwardiya"}, {word: "rehas"}, {word: "alahas"}, {word: "palapala"}
+            {word: "crisostomo", hint: "Ang binatang nag-aral sa Europa na nagnais magtayo ng paaralan sa San Diego para sa ikauunlad ng kabataan."},
+            {word: "tiyago", hint: "Isang mayamang mangangalakal sa Tondo na kinikilalang ama-amahan ni Maria Clara at masunurin sa mga prayle."},
+            {word: "alperez", hint: "Ang puno ng mga guwardiya sibil at mahigpit na karibal ng kura paroko sa kapangyarihan sa San Diego."},
+            {word: "victorina", hint: "Isang Pilipinang nagpapakastila, mahilig maglagay ng makapal na pulbos, at asawa ni Don Tiburcio."},
+            {word: "basilio", hint: "Ang nakatatandang kapatid ni Crispin na isang sakristan at nakaranas ng matinding paghihirap sa kumbento."},
+            {word: "crispin", hint: "Ang bunsong sakristan na pinagbintangang magnanakaw ng dalawang onsa at malupit na pinahirapan sa kumbento."},
+            {word: "salvi", hint: "Ang tahimik, payat, at malisyosong kura paroko na may lihim na pagnanasa kay Maria Clara."},
+            {word: "elias", hint: "Ang misteryosong bangkero at rebelde na madalas iligtas si Ibarra at binuwis ang buhay para sa bayan."},
+            {word: "salome", hint: "Ang babaeng nagmamahal kay Elias sa isang nawalang kabanata na naninirahan sa isang kubo sa gubat."},
+            {word: "damaso", hint: "Ang prangkang pransiskanong pari, dating kura sa San Diego, at tunay na ama ni Maria Clara."},
+            {word: "maria", hint: "Ang kasintahan ni Crisostomo Ibarra na lumaking sinta at ulila sa tunay na ina sa kumbento (Unang pangalan)."},
+            {word: "clara", hint: "Ang maganda at mabait na dalaga na kilalang sagisag ng walang-bahid na karangalan sa nobela (Apelyido/Pangalawang pangalan)."},
+            {word: "tasyo", hint: "Ang matalinong matanda na itinuturing na baliw ng mangmang ngunit pilosopo sa mata ng mga may pinag-aralan."},
+            {word: "sisa", hint: "Ang ulirang ina na nawala sa sarili at naging abang-aba dahil sa pagkawala at paghihirap ng kanyang mga anak."},
+            {word: "consolacion", hint: "Ang malupit na asawa ng alperes na dating labandera at mahilig mang-alipusta kay Sisa."},
+            {word: "linares", hint: "Ang binatang Kastila na pamangkin ni Don Tiburcio na inilaan ni Padre Damaso na maging asawa ni Maria Clara."},
+            {word: "sibyla", hint: "Ang matalino at mapag-ampong paring Dominiko na sumasalungat sa mga desisyon ni Padre Damaso."},
+            {word: "rafael", hint: "Ang yumaong ama ni Crisostomo Ibarra na namatay sa loob ng bilangguan dahil pinaratangan ng pilibustero."},
+            {word: "erehe", hint: "Isang tawag o paratang noon sa mga taong sumasalungat o hindi sumasampalataya sa mga aral ng Simbahang Katolika."},
+            {word: "pilibustero", hint: "Isang bansag o akusasyon sa mga taong kalaban ng pamahalaan at naghahangad ng pagbabago o pag-aaklas."},
+            {word: "prayle", hint: "Ang tawag sa mgaparing Kastila na kabilang sa iba't ibang orden na nagmamay-ari ng malalaking lupain noon."},
+            {word: "asotea", hint: "Ang bahagi ng bahay na bato kung saan madalas magtagpo o mag-usap sina Ibarra at Maria Clara sa gabi."},
+            {word: "kumbento", hint: "Ang tirahan ng mga pari o kura na madalas pinangangambahan ng mga taong-bayan dahil sa kapangyarihan nito."},
+            {word: "kuwartel", hint: "Ang gusali o himpilan na nagsisilbing tanggapan at tirahan ng mga guwardiya sibil sa bayan."},
+            {word: "kura", hint: "Ang tawag sa parokong pari na namamahala sa mga gawaing panrelihiyon at pamamahala sa isang bayan."},
+            {word: "sakristan", hint: "Ang katulong ng pari sa simbahan na namamahala sa pagpapatunog ng kampana at paghahanda sa misa."},
+            {word: "tulisan", hint: "Ang tawag sa mga taong namumuhay sa kabundukan na labis na inuusig ng pamahalaan at guwardiya sibil."},
+            {word: "buwaya", hint: "Ang malaking halimaw sa lawa na muntik nang pumatay kay Ibarra bago ito patayin ni Elias."},
+            {word: "onsa", href: "", hint: "Ang gintong barya na ipinagbintang na ninakaw ni Crispin mula sa kaban ng simbahan."},
+            {word: "sementeryo", hint: "Ang libingan sa bayan kung saan nag-uusap ang dalawang sepulturero sa ilalim ng ulan."},
+            {word: "sepulturero", hint: "Ang taong naghuhukay at naglilibing ng mga patay sa sementeryo ng bayan."},
+            {word: "kampana", hint: "Ang instrumentong tanso sa tore ng simbahan na pinatutunog para sa misa o tuwing may paparating na bagyo."},
+            {word: "kumpisalan", hint: "Ang lugar o kahon sa loob ng simbahan kung saan ipinatatapat ng mga tao ang kanilang mga kasalanan sa pari."},
+            {word: "piyesta", hint: "Ang taunang marangyang pagdiriwang at handaan sa bayan ng San Diego bilang parangal sa santo patron."},
+            {word: "paaralan", hint: "Ang gusaling ipinatayo ni Crisostomo Ibarra upang mapabuti ang edukasyon ng mga kabataan sa San Diego."},
+            {word: "lawa", hint: "Ang malawak na anyong tubig kung saan naganap ang pangingisda at ang madugong pagtakas ni Elias."},
+            {word: "gubat", hint: "Ang masukal na kagubatan na pag-aari ng mga Ibarra kung saan nagtatago ang mga sawimpalad at rebelde."},
+            {word: "indio", hint: "Ang mapang-ait na tawag ng mga Kastila noon sa mga katutubong mamamayan ng Pilipinas."},
+            {word: "kastila", hint: "Ang bansag sa mga dayuhang nanakop sa Pilipinas na nagmula sa bansang Espanya."},
+            {word: "beaterio", hint: "Ang kumbento o paaralan para sa mga kababaihan kung saan pinili ni Maria Clara na pumasok at magmadre."},
+            {word: "kanser", hint: "Ang sakit sa lipunan na inihalintulad ni Rizal sa nobelang ito na nagpapakita ng mga tiwaling sistema."},
+            {word: "lipunan", hint: "Ang kabuuang sistema ng mga tao sa bansa na inilarawan at tinuligsa ni Rizal sa kanyang nobela."},
+            {word: "rebolusyon", hint: "Ang marahas na pag-aaklas o pagbabago na tinututulan ni Ibarra ngunit ipinaglalaban ng mga tulisan."},
+            {word: "kalayaan", hint: "Ang inaasam at minimithing kasarinlan ng bayan mula sa kamay ng mga mapang-aping dayuhan."},
+            {word: "gwardiya", hint: "Ang mga alagad ng batas noon na kilala sa kalupitan sa mga katutubo (Unang bahagi)."},
+            {word: "rehas", hint: "Ang bakal na harang sa mga bintana o kulungan kung saan ikinulong si Crisostomo Ibarra."},
+            {word: "alahas", hint: "Mga mamahaling hiyas na ibinigay o isinanla ng ilang tauhan gaya ng agnos ni Maria Clara."},
+            {word: "palapala", hint: "Ang istruktura o plataporma na ginamit sa pagdiriwang ng pista at pagtatayo ng paaralan."}
         ];
 
         const wordText = document.querySelector(".words");
@@ -155,7 +271,10 @@
         const correctSound = document.getElementById("correctSound");
         const wrongSound = document.getElementById("wrongSound");
         
-        let currentWord = "";
+        const hintModal = document.getElementById("hintModal");
+        const hintText = document.getElementById("hintText");
+
+        let currentWordObj = {};
 
         // SVG Icons bilang text strings
         const icons = {
@@ -196,13 +315,24 @@
 
         const initGame = () => {
             let randomIndex = Math.floor(Math.random() * words.length);
-            currentWord = words[randomIndex].word; 
-            let scrambled = shuffleWord(currentWord);
-            while (scrambled === currentWord) {
-                scrambled = shuffleWord(currentWord);
+            currentWordObj = words[randomIndex]; 
+            let scrambled = shuffleWord(currentWordObj.word);
+            while (scrambled === currentWordObj.word) {
+                scrambled = shuffleWord(currentWordObj.word);
             }
             wordText.innerText = scrambled; 
             guessInput.value = ""; 
+        };
+
+        const showHintModal = () => {
+            hintText.innerText = currentWordObj.hint;
+            hintModal.classList.add("show");
+        };
+
+        window.closeHintModal = () => {
+            hintModal.classList.remove("show");
+            guessInput.value = "";
+            guessInput.focus();
         };
 
         const checkAnswer = () => {
@@ -213,7 +343,7 @@
                 return;
             }
 
-            if (userGuess === currentWord) {
+            if (userGuess === currentWordObj.word) {
                 showToast("Tama! Magaling!", "success");
                 correctSound.currentTime = 0;
                 correctSound.play().catch(e => console.log("Audio play blocked:", e));
@@ -226,7 +356,10 @@
                 wrongSound.currentTime = 0;
                 wrongSound.play().catch(e => console.log("Audio play blocked:", e));
                 
-                guessInput.value = ""; 
+                // Ipakita ang hint modal kapag mali ang sagot
+                setTimeout(() => {
+                    showHintModal();
+                }, 400);
             }
         };
 

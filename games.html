@@ -95,7 +95,7 @@
         }
 
         // Pluck sound generator helper
-        function playTone(freq, time, duration = 1.2, volume = 0.08) {
+        function playTone(freq, time, duration = 1.2, volume = 0.12) {
             if (!audioCtx) return;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -113,16 +113,16 @@
             osc.stop(time + duration);
         }
 
-        // Click sound effect: Classical strum
+        // Click sound effect: Classical strum (slightly louder to stand out above BGM)
         function playClassicalStrum() {
             initAudioContext();
             const frequencies = [164.81, 220.00, 246.94, 329.63, 392.00];
             frequencies.forEach((freq, index) => {
-                playTone(freq, audioCtx.currentTime + (index * 0.045), 1.0, 0.15);
+                playTone(freq, audioCtx.currentTime + (index * 0.045), 1.0, 0.22);
             });
         }
 
-        // Background Music: 19th-century Spanish guitar arpeggio progression (E minor - Am - B7)
+        // Background Music: Spanish classical arpeggio sequence
         let isBgmPlaying = false;
         function startBackgroundMusic() {
             if (isBgmPlaying) return;
@@ -145,7 +145,8 @@
                 const now = audioCtx.currentTime;
 
                 currentChord.forEach((freq, idx) => {
-                    playTone(freq, now + (idx * noteInterval), 1.5, 0.04);
+                    // Volume boosted to 0.12 for louder background ambient tone
+                    playTone(freq, now + (idx * noteInterval), 1.5, 0.12);
                 });
 
                 chordIndex = (chordIndex + 1) % chords.length;
@@ -156,7 +157,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Start BGM on user's first click anywhere (bypasses browser autoplay restrictions)
+            // Start BGM on user's first click anywhere on the page
             document.body.addEventListener("click", startBackgroundMusic, { once: true });
 
             // Attach click handler with sound + delayed navigation to all game cards

@@ -14,7 +14,7 @@
         <nav class="nav fade-in">
             <img src="noli.png" alt="Logo">
             <div>
-               <a href="home.html">Home</a>
+               <a href="index.html">Home</a>
                 <a href="characters.html">Mga Tauhan</a>
                 <a href="chapters.html">Mga Kabanata</a>
                 <a href="games.html">Mga Laro</a>
@@ -39,10 +39,10 @@
                     <h2>Sino ang nagsabi ng linyang ito?</h2>
                     <p id="quote">..</p>
                     <ul class="options">
-                        <li onclick="checkAnswer(this)">Option 1</li>
-                        <li onclick="checkAnswer(this)">Option 2</li>
-                        <li onclick="checkAnswer(this)">Option 3</li>
-                        <li onclick="checkAnswer(this)">Option 4</li>
+                        <li>Option 1</li>
+                        <li>Option 2</li>
+                        <li>Option 3</li>
+                        <li>Option 4</li>
                     </ul>
                     <button onclick="loadQuestion()">Refresh Question</button>
                 </div>
@@ -54,6 +54,10 @@
             &copy; 2025 Noli Me Tangere. All rights reserved.
         </footer>
     </div>
+
+    <!-- Audio Elements for Sound Effects -->
+    <audio id="correctSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+    <audio id="wrongSound" src="https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3" preload="auto"></audio>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -294,6 +298,7 @@
             optionsList.forEach((option, index) => {
                 option.textContent = shuffledOptions[index];
                 option.className = "";
+                option.style.pointerEvents = "auto"; // Re-enable clicks for new question
                 option.onclick = function () {
                     checkAnswer(option, question.correct);
                 };
@@ -302,10 +307,27 @@
 
         function checkAnswer(selectedOption, correctAnswer) {
             let optionsList = document.querySelectorAll(".options li");
+            let correctSound = document.getElementById("correctSound");
+            let wrongSound = document.getElementById("wrongSound");
 
+            // Disable further clicks once an option is chosen
             optionsList.forEach(option => {
-                option.className = option.textContent === correctAnswer ? "correct" : "wrong";
+                option.style.pointerEvents = "none";
+                if (option.textContent === correctAnswer) {
+                    option.className = "correct";
+                } else if (option === selectedOption) {
+                    option.className = "wrong";
+                }
             });
+
+            // Play appropriate sound effect
+            if (selectedOption.textContent === correctAnswer) {
+                correctSound.currentTime = 0;
+                correctSound.play().catch(e => console.log("Audio play blocked:", e));
+            } else {
+                wrongSound.currentTime = 0;
+                wrongSound.play().catch(e => console.log("Audio play blocked:", e));
+            }
         }
 
         window.onload = loadQuestion;

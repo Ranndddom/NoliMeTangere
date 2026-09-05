@@ -109,6 +109,10 @@
         </footer>
     </div>
 
+    <!-- Audio Elements for Sound Effects -->
+    <audio id="correctSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+    <audio id="wrongSound" src="https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3" preload="auto"></audio>
+
     <!-- Scroll Animation Script -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -147,6 +151,10 @@
         const guessInput = document.querySelector("input");
         const refreshBtn = document.querySelector(".refresh-word");
         const checkBtn = document.querySelector(".check-word");
+        
+        const correctSound = document.getElementById("correctSound");
+        const wrongSound = document.getElementById("wrongSound");
+        
         let currentWord = "";
 
         // SVG Icons bilang text strings
@@ -156,7 +164,7 @@
             warning: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
         };
 
-        // Custom Pop-up Function (Updated to use innerHTML for SVGs)
+        // Custom Pop-up Function
         const showToast = (message, type) => {
             let toast = document.getElementById("toast-popup");
             if (!toast) {
@@ -166,11 +174,8 @@
             }
             
             toast.className = `toast-popup ${type}`;
-            
-            // Pagsamahin ang SVG icon at ang mensahe
             toast.innerHTML = `${icons[type]} <span>${message}</span>`;
             
-            // Trigger animation
             setTimeout(() => {
                 toast.classList.add("show");
             }, 10);
@@ -210,11 +215,17 @@
 
             if (userGuess === currentWord) {
                 showToast("Tama! Magaling!", "success");
+                correctSound.currentTime = 0;
+                correctSound.play().catch(e => console.log("Audio play blocked:", e));
+                
                 setTimeout(() => {
                     initGame();
                 }, 1500);
             } else {
                 showToast("Mali! Subukan muli.", "error");
+                wrongSound.currentTime = 0;
+                wrongSound.play().catch(e => console.log("Audio play blocked:", e));
+                
                 guessInput.value = ""; 
             }
         };

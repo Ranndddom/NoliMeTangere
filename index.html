@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="homestyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Moon+Dance&family=News+Cycle:wght@400;700&family=Parisienne&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noli Me Tangere</title>
+</head>
+<body>
+    <div class="container fade-in">
+        <nav class="nav fade-in">
+            <img src="noli.png" alt="Logo">
+            <div>
+          <a href="index.html">Home</a>
+                <a href="characters.html">Mga Tauhan</a>
+                <a href="chapters.html">Mga Kabanata</a>
+                <a href="games.html">Mga Laro</a>
+                <a href="about.html">Tungkol</a>
+            </div>
+        </nav>
+        <header class="header fade-in">
+            <p>Tuklasin ang mga tema at karakter ng Noli Me Tangere, ang nobelang nagpabago sa Pilipinas magpakailanman.</p>
+            <button class="button" onclick="toggleContent()">Matuto Pa</button>
+        </header>
+        <main class="main" id="main">
+            <div class="content" id="content">
+                
+                <section class="section fade-in">
+                    <div>
+                        <h2>Ang Noli Me Tangere</h2>
+                        <p> Ang <b> Noli Me Tangere </b> ay isang rebolusyonaryong nobela na isinulat ni José Rizal noong 1887.
+                            Ito ay isang matinding kritisismo sa pamumuno ng mga Kastila sa Pilipinas, na naglalantad ng mga hindi pagkakapantay-pantay sa lipunan,
+                            katiwalian, at pang-aapi na dinanas ng mga Filipino sa ilalim ng mga paring Kastila at mga opisyal ng gobyerno.
+                            <br><br> Ang nobela ay sumusunod sa kwento ni Crisostomo Ibarra, isang batang Filipino na may mataas na pangarap,
+                            na bumalik sa Pilipinas pagkatapos mag-aral sa Europa. Nais niyang magdala ng progreso sa kanyang bayan,
+                            ngunit agad niyang natuklasan ang malalim na katiwalian sa lipunan. Habang nakakaranas siya ng pagtataksil, kalungkutan, at panganib,
+                            dahan-dahan niyang napagtanto na hindi madali ang pagbabago.
+                            <br><br> Sa pamamagitan ng mga makulay na karakter, inilalarawan ng Noli Me Tangere ang buhay sa Pilipinas sa ilalim ng pamumuno ng mga Kastila,
+                            na itinatampok ang mga tema ng pag-ibig, paghihiganti, pang-aapi, at ang laban para sa katarungan.
+                            Ang nobela ay may mahalagang papel sa paggising ng nasyonalismong Filipino at pag-inspirasyon sa Rebolusyong Pilipino. </p>
+                    </div>
+                    <img src="book.png" alt="About Image">
+                </section>
+
+                <section class="section reverse fade-in">
+                    <div>
+                        <h2>Ang May Akda</h2>
+                        <p> Si Jose Rizal ay isang Pilipinong nasyonalista, manunulat, at rebolusyonaryo na kinikilala bilang pambansang bayani ng Pilipinas.
+                            Sa pamamagitan ng kanyang mga akda, partikular ang Noli Me Tangere at El Filibusterismo, matapang niyang isiniwalat
+                            ang pang-aabuso at katiwalian ng mga kolonyalistang Espanyol at ng simbahan.
+                            <br><br> Sa halip na sa dahas, naniniwala si Rizal na ang kaalaman at edukasyon ang tunay na sandata sa paghingi ng pagbabago at kalayaan
+                            para sa mga Pilipino. Sa kanyang mga sulatin, binigyang-diin niya ang karapatan ng mga Pilipino sa pantay na pagtrato at
+                            makatarungang pamamahala.
+                            <br><br>Malaki ang naging epekto ng kanyang mga akda sa pagkamulat ng damdaming makabayan ng mga Pilipino, na nagbigay-daan sa Rebolusyong Pilipino.
+                            Sa kabila ng kanyang mapayapang paninindigan, hinatulan siya ng kamatayan at binaril sa Bagumbayan noong Disyembre 30, 1896.
+                            Ang kanyang buhay, paninindigan, at sakripisyo ay nagsilbing inspirasyon sa mga sumunod na henerasyon ng mga Pilipino na patuloy na
+                            nagtataguyod ng kalayaan, katarungan, at pagmamahal sa bayan.  </p>
+                    </div>
+                    <img src="rizal.png" alt="Features Image">
+                </section>
+            </div>
+        </main>
+        <footer class="footer" id="footer">
+            &copy; 2025 Noli Me Tangere. All rights reserved.
+        </footer>
+    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var main = document.getElementById("main");
+        var footer = document.getElementById("footer");
+        var content = document.getElementById("content");
+
+        var fadeElements = document.querySelectorAll(".fade-in");
+
+    function fadeInOnScroll() {
+        fadeElements.forEach(function (element) {
+            var rect = element.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.85) {
+                element.classList.add("show");
+            }
+        });
+    }
+        fadeInOnScroll();
+            window.addEventListener("scroll", fadeInOnScroll);
+        });
+
+        // Restore visibility from localStorage
+        if (localStorage.getItem("contentVisible") === "true") {
+            main.style.display = "block";
+            footer.style.display = "block";
+            content.classList.add("show");
+        }
+
+        window.toggleContent = function () {
+            if (main.style.display === "none" || main.style.display === "") {
+                main.style.display = "block";
+                footer.style.display = "block";
+                content.classList.add("show");
+                localStorage.setItem("contentVisible", "true");
+            } else {
+                main.style.display = "none";
+                footer.style.display = "none";
+                content.classList.remove("show");
+                localStorage.setItem("contentVisible", "false");
+            }
+            
+        };  
+</script>
+</body>
+</html>
